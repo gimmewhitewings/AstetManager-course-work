@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">AstetManager</string>
+    <string name="home">Главная</string>
+    <string name="schedule">Расписание</string>
+    <string name="storage">Склад</string>
+    <string name="documents">Документы</string>
+    <string name="upcoming_event">Близжайшее событие</string>
+    <string name="last_application">Последняя заявка</string>
+    <string name="last_implementation">Послденяя реализация</string>
+    <string name="storage_summary">Сейчас на складе %1$dм ткани и %2$d комплектов</string>
+    <string name="add">Добавить</string>
+    <string name="week">Неделя</string>
+    <string name="month">Месяц</string>
+    <string name="all">Все</string>
+    <string name="upcoming_events">Ближайшие события</string>
+    <string name="cloth">Ткань</string>
+    <string name="complects">Комплекты</string>
+    <string name="storage_search">Поиск по складу</string>
+    <string name="applications">Заявки</string>
+    <string name="implementations">Реализации</string>
+    <string name="documents_search">Поиск по документам</string>
+    <string name="add_question">Что вы хотите добавить?</string>
+    <string name="complect">Комплект</string>
+    <string name="complect_record">Запись о комплекте</string>
+    <string name="name">Название</string>
+    <string name="vendor_code">Арт.</string>
+    <string name="pillowcases">Наволочки</string>
+    <string name="save">Сохранить</string>
+    <string name="sheets">Простыни</string>
+    <string name="duvet_covers">Пододеяльники</string>
+</resources>
