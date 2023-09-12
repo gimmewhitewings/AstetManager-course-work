@@ -23,6 +23,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.example.astetmanager.R
 import com.example.astetmanager.ui.components.MyListItem
@@ -33,6 +34,7 @@ fun ScheduleScreen(
     navController: NavController,
     viewModel: ScheduleViewModel
 ) {
+    val viewState by viewModel.uiState.collectAsStateWithLifecycle()
     ScheduleScreenContent()
 }
 

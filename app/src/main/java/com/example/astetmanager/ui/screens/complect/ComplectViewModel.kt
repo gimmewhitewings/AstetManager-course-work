@@ -2,11 +2,11 @@ package com.example.astetmanager.ui.screens.complect
 
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
-import javax.inject.Inject
 
 @HiltViewModel
 class ComplectViewModel @Inject constructor() : ViewModel() {
@@ -61,5 +61,5 @@ data class ComplectUiState(
     val selectedComplectSize: ComplectSize = ComplectSize.M,
     val pillowcasesAmount: Int = 0,
     val sheetsAmount: Int = 0,
-    val duvetCoversAmount: Int = 0,
+    val duvetCoversAmount: Int = 0
 )

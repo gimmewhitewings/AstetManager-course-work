@@ -29,4 +29,12 @@
     <string name="save">Сохранить</string>
     <string name="sheets">Простыни</string>
     <string name="duvet_covers">Пододеяльники</string>
+    <string name="meters">%1$dм</string>
+    <string name="cloth_record">Запись о ткани</string>
+    <string name="new_cloth_parth">Новый кусок</string>
+    <string name="application">Заявка</string>
+    <string name="implementation">Реализация</string>
+    <string name="counterparty">Контрагент</string>
+    <string name="design">Дизайн</string>
+    <string name="payment_method">Оплата</string>
 </resources>

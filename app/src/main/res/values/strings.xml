@@ -28,4 +28,24 @@
     <string name="sheets">Sheet</string>
     <string name="duvet_covers">Duvet covers</string>
     <string name="save">Save</string>
+    <string name="meters">%1$dm</string>
+    <string name="cloth_record">Cloth record</string>
+    <string name="new_cloth_parth">New cloth part</string>
+    <string name="application">Application</string>
+    <string name="implementation">Implementation</string>
+    <string name="counterparty">Counterparty</string>
+    <string name="design">Design</string>
+    <string name="payment_method">Payment</string>
+    <string name="wildberries" translatable="false">Wildberries</string>
+    <string name="ozon" translatable="false">Ozon</string>
+    <string name="avito" translatable="false">Avito</string>
+    <string name="whatsapp" translatable="false">Whatsapp</string>
+    <string name="instagram" translatable="false">Instagram</string>
+    <string name="vk" translatable="false">VK</string>
+    <string name="cash">Cash</string>
+    <string name="card">Card</string>
+    <string name="choose_data">Shoose data</string>
+    <string name="choose_date">Choose date</string>
+    <string name="delivery">Delivery</string>
+    <string name="price">Price</string>
 </resources>

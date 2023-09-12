@@ -31,11 +31,11 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.example.astetmanager.R
 import com.example.astetmanager.Screen
 import com.example.astetmanager.ui.components.AddingDialog
-import com.example.astetmanager.ui.screens.schedule.StorageViewModel
 import com.example.astetmanager.ui.theme.AstetManagerTheme
 
 @Composable
@@ -43,15 +43,18 @@ fun StorageScreen(
     navController: NavController,
     viewModel: StorageViewModel
 ) {
+    val viewState by viewModel.uiState.collectAsStateWithLifecycle()
     StorageScreenContent(
-        navigateToComplectScreen = { navController.navigate(Screen.Complect.route) }
+        navigateToComplectScreen = { navController.navigate(Screen.Complect.route) },
+        navigateToClothScreen = { navController.navigate(Screen.Cloth.route) }
     )
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun StorageScreenContent(
-    navigateToComplectScreen: () -> Unit = {}
+    navigateToComplectScreen: () -> Unit = {},
+    navigateToClothScreen: () -> Unit = {}
 ) {
     var state by remember { mutableIntStateOf(0) }
     val titles = listOf(
@@ -135,7 +138,10 @@ fun StorageScreenContent(
         AddingDialog(
             onDismissRequest = { openDialog = false },
             leftButtonText = stringResource(id = R.string.cloth),
-            leftButtonOnClick = { /*TODO*/ },
+            leftButtonOnClick = {
+                openDialog = false
+                navigateToClothScreen()
+            },
             rightButtonText = stringResource(id = R.string.complect),
             rightButtonOnClick = {
                 openDialog = false

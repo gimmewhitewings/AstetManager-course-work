@@ -21,16 +21,22 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.example.astetmanager.ui.screens.application.ApplicationScreen
+import com.example.astetmanager.ui.screens.application.ApplicationViewModel
+import com.example.astetmanager.ui.screens.cloth.ClothScreen
+import com.example.astetmanager.ui.screens.cloth.ClothViewModel
 import com.example.astetmanager.ui.screens.complect.ComplectScreen
 import com.example.astetmanager.ui.screens.complect.ComplectViewModel
 import com.example.astetmanager.ui.screens.documents.DocumentsScreen
 import com.example.astetmanager.ui.screens.documents.DocumentsViewModel
 import com.example.astetmanager.ui.screens.home.HomeScreen
 import com.example.astetmanager.ui.screens.home.HomeViewModel
+import com.example.astetmanager.ui.screens.implementation.ImplementationScreen
+import com.example.astetmanager.ui.screens.implementation.ImplementationViewModel
 import com.example.astetmanager.ui.screens.schedule.ScheduleScreen
 import com.example.astetmanager.ui.screens.schedule.ScheduleViewModel
-import com.example.astetmanager.ui.screens.schedule.StorageViewModel
 import com.example.astetmanager.ui.screens.storage.StorageScreen
+import com.example.astetmanager.ui.screens.storage.StorageViewModel
 import com.example.astetmanager.ui.theme.AstetManagerTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -131,6 +137,30 @@ class MainActivity : ComponentActivity() {
                             ComplectScreen(
                                 navController = navController,
                                 viewModel = complectViewModel
+                            )
+                        }
+
+                        composable(Screen.Cloth.route) {
+                            val clothViewModel = hiltViewModel<ClothViewModel>()
+                            ClothScreen(
+                                navController = navController,
+                                viewModel = clothViewModel
+                            )
+                        }
+
+                        composable(Screen.Application.route) {
+                            val applicationViewModel = hiltViewModel<ApplicationViewModel>()
+                            ApplicationScreen(
+                                navController = navController,
+                                viewModel = applicationViewModel
+                            )
+                        }
+
+                        composable(Screen.Implementation.route) {
+                            val implementationViewModel = hiltViewModel<ImplementationViewModel>()
+                            ImplementationScreen(
+                                navController = navController,
+                                viewModel = implementationViewModel
                             )
                         }
                     }

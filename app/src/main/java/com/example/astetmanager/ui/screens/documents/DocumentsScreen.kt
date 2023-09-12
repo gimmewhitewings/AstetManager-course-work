@@ -31,8 +31,10 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.example.astetmanager.R
+import com.example.astetmanager.Screen
 import com.example.astetmanager.ui.components.AddingDialog
 import com.example.astetmanager.ui.theme.AstetManagerTheme
 
@@ -41,12 +43,19 @@ fun DocumentsScreen(
     navController: NavController,
     viewModel: DocumentsViewModel
 ) {
-    DocumentsScreenContent()
+    val viewState by viewModel.uiState.collectAsStateWithLifecycle()
+    DocumentsScreenContent(
+        navigateToApplicationScreen = { navController.navigate(Screen.Application.route) },
+        navigateToImplementationScreen = { navController.navigate(Screen.Implementation.route) }
+    )
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DocumentsScreenContent() {
+fun DocumentsScreenContent(
+    navigateToApplicationScreen: () -> Unit = {},
+    navigateToImplementationScreen: () -> Unit = {}
+) {
     var state by remember { mutableIntStateOf(0) }
     val titles = listOf(
         stringResource(id = R.string.all),
@@ -128,9 +137,15 @@ fun DocumentsScreenContent() {
             AddingDialog(
                 onDismissRequest = { openDialog = false },
                 leftButtonText = stringResource(id = R.string.applications),
-                leftButtonOnClick = { /*TODO*/ },
+                leftButtonOnClick = {
+                    openDialog = false
+                    navigateToApplicationScreen()
+                },
                 rightButtonText = stringResource(id = R.string.implementations),
-                rightButtonOnClick = { /*TODO*/ }
+                rightButtonOnClick = {
+                    openDialog = false
+                    navigateToImplementationScreen()
+                }
             )
         }
     }

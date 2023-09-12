@@ -1,4 +1,4 @@
-package com.example.astetmanager.ui.components
+package com.example.astetmanager.ui.screens.home.components
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row

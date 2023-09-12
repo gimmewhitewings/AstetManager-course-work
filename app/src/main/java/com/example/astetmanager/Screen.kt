@@ -15,28 +15,28 @@ sealed class Screen(
         @DrawableRes val selectedIconResourceId: Int
     ) : Screen(route, resourceId) {
 
-        object Home : BottomBarScreen(
+        data object Home : BottomBarScreen(
             route = "home",
             resourceId = R.string.home,
             iconResourceId = R.drawable.ic_home,
             selectedIconResourceId = R.drawable.ic_home_filled
         )
 
-        object Schedule : BottomBarScreen(
+        data object Schedule : BottomBarScreen(
             route = "schedule",
             resourceId = R.string.schedule,
             iconResourceId = R.drawable.ic_calendar,
             selectedIconResourceId = R.drawable.ic_calendar_filled
         )
 
-        object Storage : BottomBarScreen(
+        data object Storage : BottomBarScreen(
             route = "storage",
             resourceId = R.string.storage,
             iconResourceId = R.drawable.ic_storage,
             selectedIconResourceId = R.drawable.ic_storage_filled
         )
 
-        object Documents : BottomBarScreen(
+        data object Documents : BottomBarScreen(
             route = "documents",
             resourceId = R.string.documents,
             iconResourceId = R.drawable.ic_document,
@@ -44,8 +44,23 @@ sealed class Screen(
         )
     }
 
-    object Complect : Screen(
+    data object Complect : Screen(
         route = "complect",
         resourceId = R.string.complect
+    )
+
+    data object Cloth : Screen(
+        route = "cloth",
+        resourceId = R.string.cloth
+    )
+
+    data object Application : Screen(
+        route = "application",
+        resourceId = R.string.application
+    )
+
+    data object Implementation : Screen(
+        route = "implementation",
+        resourceId = R.string.implementation
     )
 }
