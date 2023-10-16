@@ -17,20 +17,20 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavDestination.Companion.hierarchy
+import androidx.navigation.NavGraphBuilder
+import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.example.astetmanager.ui.screens.application.ApplicationScreen
-import com.example.astetmanager.ui.screens.application.ApplicationViewModel
+import com.example.astetmanager.ui.screens.new_order.NewOrderScreen
+import com.example.astetmanager.ui.screens.new_order.NewOrderViewModel
 import com.example.astetmanager.ui.screens.complect.ComplectScreen
 import com.example.astetmanager.ui.screens.complect.ComplectViewModel
-import com.example.astetmanager.ui.screens.documents.DocumentsScreen
-import com.example.astetmanager.ui.screens.documents.DocumentsViewModel
+import com.example.astetmanager.ui.screens.orders.OrdersScreen
+import com.example.astetmanager.ui.screens.orders.OrdersViewModel
 import com.example.astetmanager.ui.screens.home.HomeScreen
 import com.example.astetmanager.ui.screens.home.HomeViewModel
-import com.example.astetmanager.ui.screens.implementation.ImplementationScreen
-import com.example.astetmanager.ui.screens.implementation.ImplementationViewModel
 import com.example.astetmanager.ui.screens.schedule.ScheduleScreen
 import com.example.astetmanager.ui.screens.schedule.ScheduleViewModel
 import com.example.astetmanager.ui.screens.storage.StorageScreen
@@ -47,7 +47,7 @@ class MainActivity : ComponentActivity() {
             Screen.BottomBarScreen.Home,
             Screen.BottomBarScreen.Schedule,
             Screen.BottomBarScreen.Storage,
-            Screen.BottomBarScreen.Documents
+            Screen.BottomBarScreen.Orders
         )
 
         setContent {
@@ -98,72 +98,53 @@ class MainActivity : ComponentActivity() {
                         startDestination = Screen.BottomBarScreen.Home.route,
                         modifier = Modifier.padding(innerPadding)
                     ) {
-                        composable(Screen.BottomBarScreen.Home.route) {
-                            val homeViewModel = hiltViewModel<HomeViewModel>()
-                            HomeScreen(
-                                navController = navController,
-                                viewModel = homeViewModel
-                            )
-                        }
+                        bottomBarScreens(navController)
 
-                        composable(Screen.BottomBarScreen.Schedule.route) {
-                            val scheduleViewModel = hiltViewModel<ScheduleViewModel>()
-                            ScheduleScreen(
-                                navController = navController,
-                                viewModel = scheduleViewModel
-                            )
-                        }
 
-                        composable(Screen.BottomBarScreen.Storage.route) {
-                            val storageViewModel = hiltViewModel<StorageViewModel>()
-                            StorageScreen(
+                        composable(Screen.NewOrder.route) {
+                            val newOrderViewModel = hiltViewModel<NewOrderViewModel>()
+                            NewOrderScreen(
                                 navController = navController,
-                                viewModel = storageViewModel
-                            )
-                        }
-
-                        composable(Screen.BottomBarScreen.Documents.route) {
-                            val documentsViewModel = hiltViewModel<DocumentsViewModel>()
-                            DocumentsScreen(
-                                navController = navController,
-                                viewModel = documentsViewModel
-                            )
-                        }
-
-                        composable(Screen.Complect.route) {
-                            val complectViewModel = hiltViewModel<ComplectViewModel>()
-                            ComplectScreen(
-                                navController = navController,
-                                viewModel = complectViewModel
-                            )
-                        }
-
-//                        composable(Screen.Cloth.route) {
-//                            val clothViewModel = hiltViewModel<ClothViewModel>()
-//                            ClothScreen(
-//                                navController = navController,
-//                                viewModel = clothViewModel
-//                            )
-//                        }
-
-                        composable(Screen.Application.route) {
-                            val applicationViewModel = hiltViewModel<ApplicationViewModel>()
-                            ApplicationScreen(
-                                navController = navController,
-                                viewModel = applicationViewModel
-                            )
-                        }
-
-                        composable(Screen.Implementation.route) {
-                            val implementationViewModel = hiltViewModel<ImplementationViewModel>()
-                            ImplementationScreen(
-                                navController = navController,
-                                viewModel = implementationViewModel
+                                viewModel = newOrderViewModel
                             )
                         }
                     }
                 }
             }
+        }
+    }
+
+    private fun NavGraphBuilder.bottomBarScreens(navController: NavHostController) {
+        composable(Screen.BottomBarScreen.Home.route) {
+            val homeViewModel = hiltViewModel<HomeViewModel>()
+            HomeScreen(
+                navController = navController,
+                viewModel = homeViewModel
+            )
+        }
+
+        composable(Screen.BottomBarScreen.Schedule.route) {
+            val scheduleViewModel = hiltViewModel<ScheduleViewModel>()
+            ScheduleScreen(
+                navController = navController,
+                viewModel = scheduleViewModel
+            )
+        }
+
+        composable(Screen.BottomBarScreen.Storage.route) {
+            val storageViewModel = hiltViewModel<StorageViewModel>()
+            StorageScreen(
+                navController = navController,
+                viewModel = storageViewModel
+            )
+        }
+
+        composable(Screen.BottomBarScreen.Orders.route) {
+            val ordersViewModel = hiltViewModel<OrdersViewModel>()
+            OrdersScreen(
+                navController = navController,
+                viewModel = ordersViewModel
+            )
         }
     }
 }

@@ -1,29 +1,44 @@
 package com.example.astetmanager.ui.screens.storage
 
 import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.foundation.gestures.rememberScrollableState
+import androidx.compose.foundation.gestures.scrollable
+import androidx.compose.foundation.horizontalScroll
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material3.AssistChip
+import androidx.compose.material3.BottomSheetScaffold
+import androidx.compose.material3.ElevatedButton
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FilterChip
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
+import androidx.compose.material3.PrimaryTabRow
 import androidx.compose.material3.SearchBar
+import androidx.compose.material3.SecondaryScrollableTabRow
+import androidx.compose.material3.SecondaryTabRow
 import androidx.compose.material3.Tab
 import androidx.compose.material3.TabRow
 import androidx.compose.material3.Text
+import androidx.compose.material3.rememberBottomSheetScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -35,8 +50,10 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.example.astetmanager.R
 import com.example.astetmanager.Screen
-import com.example.astetmanager.ui.components.AddingDialog
+import com.example.astetmanager.data.database.entities.enums.PartTypeClass
+import com.example.astetmanager.data.database.entities.enums.getStringResourceId
 import com.example.astetmanager.ui.theme.AstetManagerTheme
+import kotlinx.coroutines.launch
 
 @Composable
 fun StorageScreen(
@@ -45,16 +62,16 @@ fun StorageScreen(
 ) {
     val viewState by viewModel.uiState.collectAsStateWithLifecycle()
     StorageScreenContent(
-        navigateToComplectScreen = { navController.navigate(Screen.Complect.route) },
-        navigateToClothScreen = { navController.navigate(Screen.Cloth.route) }
+        onAddNewComplectButtonClick = {  },
+        onAddPartTypeButtonClick = { }
     )
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun StorageScreenContent(
-    navigateToComplectScreen: () -> Unit = {},
-    navigateToClothScreen: () -> Unit = {}
+    onAddNewComplectButtonClick: () -> Unit = {},
+    onAddPartTypeButtonClick: () -> Unit = {}
 ) {
     var state by remember { mutableIntStateOf(0) }
     val titles = listOf(
@@ -62,11 +79,17 @@ fun StorageScreenContent(
         stringResource(id = R.string.cloth),
         stringResource(id = R.string.complects)
     )
-    var openDialog by remember { mutableStateOf(false) }
+    var selectedAddingTabIndex by remember { mutableIntStateOf(0) }
+    var selectedAddingPartTypeIndex by remember { mutableIntStateOf(0) }
     var searchText by remember { mutableStateOf("") }
     var isSearchActive by remember { mutableStateOf(false) }
-    val searchBarPadding by animateDpAsState(targetValue = if (isSearchActive) 0.dp else 16.dp)
-    Scaffold(
+    val searchBarPadding by animateDpAsState(
+        targetValue = if (isSearchActive) 0.dp else 16.dp,
+        label = "searchBarPadding"
+    )
+    val scaffoldState = rememberBottomSheetScaffoldState()
+    val scope = rememberCoroutineScope()
+    BottomSheetScaffold(
         modifier = Modifier.fillMaxSize(),
         topBar = {
             Column {
@@ -118,36 +141,83 @@ fun StorageScreenContent(
                 }
             }
         },
-        floatingActionButton = {
-            FloatingActionButton(
-                onClick = { openDialog = true }
+        scaffoldState = scaffoldState,
+        sheetPeekHeight = 0.dp,
+        sheetContent = {
+            TabRow(selectedTabIndex = selectedAddingTabIndex) {
+                AddingTab.entries.forEachIndexed { index, addingTab ->
+                    Tab(
+                        selected = index == selectedAddingTabIndex,
+                        onClick = { selectedAddingTabIndex = index }
+                    ) {
+                        Text(
+                            modifier = Modifier.padding(16.dp),
+                            text = stringResource(addingTab.getStringResourceId()),
+                            maxLines = 1,
+                            overflow = TextOverflow.Ellipsis
+                        )
+                    }
+                }
+            }
+
+            if (selectedAddingTabIndex == AddingTab.PART_TYPE.ordinal) {
+                val horizontalScrollState = rememberScrollState()
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .horizontalScroll(horizontalScrollState)
+                        .padding(vertical = 32.dp),
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    PartTypeClass.entries.forEachIndexed { index, partTypeClass ->
+                        FilterChip(
+                            modifier = Modifier.padding(horizontal = 8.dp),
+                            selected = index == selectedAddingPartTypeIndex,
+                            onClick = { selectedAddingPartTypeIndex = index },
+                            label = { Text(text = stringResource(id = partTypeClass.getStringResourceId())) }
+                        )
+                    }
+                }
+            }
+            ElevatedButton(
+                modifier = Modifier.fillMaxWidth(),
+                onClick = { /*TODO*/ }
             ) {
-                Icon(Icons.Default.Add, contentDescription = null)
+                Text(text = stringResource(id = R.string.add))
             }
         }
     ) { innerPadding ->
-        Column(Modifier.padding(innerPadding)) {
+        Box(Modifier.padding(innerPadding)) {
             Text(
-                modifier = Modifier.align(Alignment.CenterHorizontally),
+                modifier = Modifier.align(Alignment.TopCenter),
                 text = "Text tab ${state + 1} selected",
                 style = MaterialTheme.typography.bodyLarge
             )
+            FloatingActionButton(
+                modifier = Modifier
+                    .align(Alignment.BottomEnd)
+                    .padding(16.dp),
+                onClick = {
+                    scope.launch {
+                        scaffoldState.bottomSheetState.expand()
+                    }
+                }
+            ) {
+                Icon(imageVector = Icons.Default.Add, contentDescription = null)
+            }
         }
     }
-    if (openDialog) {
-        AddingDialog(
-            onDismissRequest = { openDialog = false },
-            leftButtonText = stringResource(id = R.string.cloth),
-            leftButtonOnClick = {
-                openDialog = false
-                navigateToClothScreen()
-            },
-            rightButtonText = stringResource(id = R.string.complect),
-            rightButtonOnClick = {
-                openDialog = false
-                navigateToComplectScreen()
-            }
-        )
+}
+
+enum class AddingTab {
+    PART_TYPE,
+    COMPLECT
+}
+
+fun AddingTab.getStringResourceId(): Int {
+    return when (this) {
+        AddingTab.PART_TYPE -> R.string.part_type
+        AddingTab.COMPLECT -> R.string.complect
     }
 }
 

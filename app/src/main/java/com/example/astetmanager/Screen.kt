@@ -36,31 +36,16 @@ sealed class Screen(
             selectedIconResourceId = R.drawable.ic_storage_filled
         )
 
-        data object Documents : BottomBarScreen(
+        data object Orders : BottomBarScreen(
             route = "documents",
-            stringResourceId = R.string.documents,
+            stringResourceId = R.string.orders,
             unselectedIconResourceId = R.drawable.ic_document,
             selectedIconResourceId = R.drawable.ic_document_filled
         )
     }
 
-    data object Complect : Screen(
-        route = "complect",
-        stringResourceId = R.string.complect
-    )
-
-    data object Cloth : Screen(
-        route = "cloth",
-        stringResourceId = R.string.cloth
-    )
-
-    data object Application : Screen(
-        route = "application",
-        stringResourceId = R.string.application
-    )
-
-    data object Implementation : Screen(
-        route = "implementation",
-        stringResourceId = R.string.implementation
+    data object NewOrder : Screen(
+        route = "new_order",
+        stringResourceId = R.string.new_order
     )
 }

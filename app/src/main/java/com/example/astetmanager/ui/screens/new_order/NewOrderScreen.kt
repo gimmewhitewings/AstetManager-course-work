@@ -1,4 +1,4 @@
-package com.example.astetmanager.ui.screens.application
+package com.example.astetmanager.ui.screens.new_order
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -10,7 +10,6 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.DropdownMenuItem
-import androidx.compose.material3.ElevatedButton
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExposedDropdownMenuBox
 import androidx.compose.material3.ExposedDropdownMenuDefaults
@@ -45,12 +44,12 @@ import com.example.astetmanager.ui.screens.complect.components.ComplectSizeChoos
 import com.example.astetmanager.ui.theme.AstetManagerTheme
 
 @Composable
-fun ApplicationScreen(
+fun NewOrderScreen(
     navController: NavController,
-    viewModel: ApplicationViewModel
+    viewModel: NewOrderViewModel
 ) {
     val viewState by viewModel.uiState.collectAsStateWithLifecycle()
-    ApplicationScreenContent(
+    NewOrderScreenContent(
         onNavigationIconClick = { navController.popBackStack() },
         counterparty = viewState.counterparty,
         setCounterparty = viewModel::setCounterparty,
@@ -69,9 +68,9 @@ fun ApplicationScreen(
         duvetCoversAmount = viewState.duvetCoversAmount,
         onAddDuvetCoverButtonClick = viewModel::addDuvetCover,
         onRemoveDuvetCoverButtonClick = viewModel::removeDuvetCover,
-        onClothButtonClick = {},
-        onChooseDateButtonClick = {},
-        onDeliveryButtonClick = {},
+//        onClothButtonClick = {},
+//        onChooseDateButtonClick = {},
+//        onDeliveryButtonClick = {},
         priceText = if (viewState.price == 0) "" else viewState.price.toString(),
         setPriceText = viewModel::setPrice
     )
@@ -79,7 +78,7 @@ fun ApplicationScreen(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ApplicationScreenContent(
+fun NewOrderScreenContent(
     onNavigationIconClick: () -> Unit,
     counterparty: Counterparty,
     setCounterparty: (Counterparty) -> Unit,
@@ -98,9 +97,9 @@ fun ApplicationScreenContent(
     duvetCoversAmount: Int,
     onAddDuvetCoverButtonClick: () -> Unit,
     onRemoveDuvetCoverButtonClick: () -> Unit,
-    onClothButtonClick: () -> Unit,
-    onChooseDateButtonClick: () -> Unit,
-    onDeliveryButtonClick: () -> Unit,
+//    onClothButtonClick: () -> Unit,
+//    onChooseDateButtonClick: () -> Unit,
+//    onDeliveryButtonClick: () -> Unit,
     priceText: String,
     setPriceText: (String) -> Unit
 ) {
@@ -108,7 +107,7 @@ fun ApplicationScreenContent(
         modifier = Modifier.fillMaxSize(),
         topBar = {
             TopAppBar(
-                title = { Text(text = stringResource(id = R.string.application)) },
+                title = { Text(text = stringResource(id = R.string.new_order)) },
                 navigationIcon = {
                     IconButton(onClick = onNavigationIconClick) {
                         Icon(imageVector = Icons.Filled.ArrowBack, contentDescription = null)
@@ -170,6 +169,7 @@ fun ApplicationScreenContent(
                 ) {
                     OutlinedTextField(
                         value = stringResource(id = paymentMethod.getStringResourceId()),
+                        maxLines = 1,
                         onValueChange = {},
                         readOnly = true,
                         trailingIcon = {
@@ -198,6 +198,7 @@ fun ApplicationScreenContent(
                 value = designText,
                 onValueChange = setDesignText,
                 label = { Text(text = stringResource(id = R.string.design)) },
+                maxLines = 1,
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 16.dp)
@@ -226,36 +227,36 @@ fun ApplicationScreenContent(
                 onAddDuvetCoverButtonClick = onAddDuvetCoverButtonClick
             )
 
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 16.dp)
-            ) {
-                ElevatedButton(
-                    onClick = onClothButtonClick,
-                    modifier = Modifier.weight(1f)
-                ) {
-                    Text(text = stringResource(id = R.string.cloth))
-                }
-
-                Spacer(modifier = Modifier.padding(horizontal = 8.dp))
-
-                ElevatedButton(
-                    onClick = onChooseDateButtonClick,
-                    modifier = Modifier.weight(2f)
-                ) {
-                    Text(text = stringResource(id = R.string.choose_date))
-                }
-            }
-
-            ElevatedButton(
-                onClick = onDeliveryButtonClick,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 16.dp)
-            ) {
-                Text(text = stringResource(id = R.string.delivery))
-            }
+//            Row(
+//                modifier = Modifier
+//                    .fillMaxWidth()
+//                    .padding(horizontal = 16.dp)
+//            ) {
+//                ElevatedButton(
+//                    onClick = onClothButtonClick,
+//                    modifier = Modifier.weight(1f)
+//                ) {
+//                    Text(text = stringResource(id = R.string.cloth))
+//                }
+//
+//                Spacer(modifier = Modifier.padding(horizontal = 8.dp))
+//
+//                ElevatedButton(
+//                    onClick = onChooseDateButtonClick,
+//                    modifier = Modifier.weight(2f)
+//                ) {
+//                    Text(text = stringResource(id = R.string.choose_date))
+//                }
+//            }
+//
+//            ElevatedButton(
+//                onClick = onDeliveryButtonClick,
+//                modifier = Modifier
+//                    .fillMaxWidth()
+//                    .padding(horizontal = 16.dp)
+//            ) {
+//                Text(text = stringResource(id = R.string.delivery))
+//            }
 
             OutlinedTextField(
                 modifier = Modifier
@@ -280,7 +281,7 @@ fun ApplicationScreenContent(
 @Composable
 fun ApplicationScreenContent_Preview() {
     AstetManagerTheme {
-        ApplicationScreenContent(
+        NewOrderScreenContent(
             onNavigationIconClick = { },
             counterparty = Counterparty.OZON,
             setCounterparty = {},
@@ -299,9 +300,9 @@ fun ApplicationScreenContent_Preview() {
             duvetCoversAmount = 1,
             onAddDuvetCoverButtonClick = { },
             onRemoveDuvetCoverButtonClick = { },
-            onClothButtonClick = { },
-            onChooseDateButtonClick = { },
-            onDeliveryButtonClick = { },
+//            onClothButtonClick = { },
+//            onChooseDateButtonClick = { },
+//            onDeliveryButtonClick = { },
             priceText = "1000",
             setPriceText = {}
         )

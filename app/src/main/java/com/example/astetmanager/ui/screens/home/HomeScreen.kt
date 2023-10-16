@@ -27,14 +27,14 @@ fun HomeScreen(
     val viewState by viewModel.uiState.collectAsStateWithLifecycle()
     HomeScreenContent(
         onStorageAddButtonClick = { /*TODO*/ },
-        onDocumentsAddButtonClick = { /*TODO*/ }
+        onOrdersAddButtonClick = { /*TODO*/ }
     )
 }
 
 @Composable
 fun HomeScreenContent(
     onStorageAddButtonClick: () -> Unit,
-    onDocumentsAddButtonClick: () -> Unit
+    onOrdersAddButtonClick: () -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -64,15 +64,15 @@ fun HomeScreenContent(
 
         AddButton(
             modifier = Modifier.fillMaxWidth(),
-            onClick = { /*TODO*/ },
+            onClick = onStorageAddButtonClick,
             buttonText = stringResource(id = R.string.add)
         )
 
         HorizontalDivider(modifier = Modifier.padding(16.dp))
 
-        // Documents section
+        // Orders section
         Text(
-            text = stringResource(id = R.string.documents),
+            text = stringResource(id = R.string.orders),
             style = MaterialTheme.typography.titleLarge,
             color = MaterialTheme.colorScheme.primary
         )
@@ -91,7 +91,7 @@ fun HomeScreenContent(
 
         AddButton(
             modifier = Modifier.fillMaxWidth(),
-            onClick = { /*TODO*/ },
+            onClick = onOrdersAddButtonClick,
             buttonText = stringResource(id = R.string.add)
         )
     }
@@ -103,7 +103,7 @@ fun HomeScreenContent_Preview() {
     AstetManagerTheme {
         HomeScreenContent(
             onStorageAddButtonClick = {},
-            onDocumentsAddButtonClick = {}
+            onOrdersAddButtonClick = {}
         )
     }
 }

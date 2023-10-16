@@ -1,4 +1,4 @@
-package com.example.astetmanager.ui.screens.documents
+package com.example.astetmanager.ui.screens.orders
 
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.layout.Column
@@ -35,34 +35,30 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.example.astetmanager.R
 import com.example.astetmanager.Screen
-import com.example.astetmanager.ui.components.AddingDialog
 import com.example.astetmanager.ui.theme.AstetManagerTheme
 
 @Composable
-fun DocumentsScreen(
+fun OrdersScreen(
     navController: NavController,
-    viewModel: DocumentsViewModel
+    viewModel: OrdersViewModel
 ) {
     val viewState by viewModel.uiState.collectAsStateWithLifecycle()
-    DocumentsScreenContent(
-        navigateToApplicationScreen = { navController.navigate(Screen.Application.route) },
-        navigateToImplementationScreen = { navController.navigate(Screen.Implementation.route) }
+    OrdersScreenContent(
+        onAddNewOrderButtonClick = { navController.navigate(Screen.NewOrder.route) },
     )
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DocumentsScreenContent(
-    navigateToApplicationScreen: () -> Unit = {},
-    navigateToImplementationScreen: () -> Unit = {}
+fun OrdersScreenContent(
+    onAddNewOrderButtonClick: () -> Unit = {},
 ) {
-    var state by remember { mutableIntStateOf(0) }
+    var selectedTabIndex by remember { mutableIntStateOf(0) }
     val titles = listOf(
         stringResource(id = R.string.all),
         stringResource(id = R.string.applications),
         stringResource(id = R.string.implementations)
     )
-    var openDialog by remember { mutableStateOf(false) }
     var searchText by remember { mutableStateOf("") }
     var isSearchActive by remember { mutableStateOf(false) }
     val searchBarPadding by animateDpAsState(targetValue = if (isSearchActive) 0.dp else 16.dp)
@@ -100,12 +96,12 @@ fun DocumentsScreenContent(
                     content = {}
                 )
                 TabRow(
-                    selectedTabIndex = state
+                    selectedTabIndex = selectedTabIndex
                 ) {
                     titles.forEachIndexed { index, title ->
                         Tab(
-                            selected = state == index,
-                            onClick = { state = index },
+                            selected = selectedTabIndex == index,
+                            onClick = { selectedTabIndex = index },
                             text = {
                                 Text(
                                     text = title,
@@ -120,7 +116,7 @@ fun DocumentsScreenContent(
         },
         floatingActionButton = {
             FloatingActionButton(
-                onClick = { openDialog = true }
+                onClick = onAddNewOrderButtonClick
             ) {
                 Icon(Icons.Default.Add, contentDescription = null)
             }
@@ -129,23 +125,8 @@ fun DocumentsScreenContent(
         Column(Modifier.padding(innerPadding)) {
             Text(
                 modifier = Modifier.align(Alignment.CenterHorizontally),
-                text = "Text tab ${state + 1} selected",
+                text = "Text tab ${selectedTabIndex + 1} selected",
                 style = MaterialTheme.typography.bodyLarge
-            )
-        }
-        if (openDialog) {
-            AddingDialog(
-                onDismissRequest = { openDialog = false },
-                leftButtonText = stringResource(id = R.string.applications),
-                leftButtonOnClick = {
-                    openDialog = false
-                    navigateToApplicationScreen()
-                },
-                rightButtonText = stringResource(id = R.string.implementations),
-                rightButtonOnClick = {
-                    openDialog = false
-                    navigateToImplementationScreen()
-                }
             )
         }
     }
@@ -155,6 +136,6 @@ fun DocumentsScreenContent(
 @Composable
 fun DocumentScreenContent_Preview() {
     AstetManagerTheme {
-        DocumentsScreenContent()
+        OrdersScreenContent()
     }
 }

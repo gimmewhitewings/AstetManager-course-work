@@ -1,4 +1,4 @@
-package com.example.astetmanager.ui.screens.application
+package com.example.astetmanager.ui.screens.new_order
 
 import androidx.lifecycle.ViewModel
 import com.example.astetmanager.data.database.entities.enums.Counterparty
@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 
 @HiltViewModel
-class ApplicationViewModel @Inject constructor() : ViewModel() {
+class NewOrderViewModel @Inject constructor() : ViewModel() {
 
     private val _uiState = MutableStateFlow(ApplicationUiState(price = 0))
     val uiState = _uiState.asStateFlow()

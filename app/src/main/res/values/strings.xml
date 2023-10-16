@@ -47,4 +47,7 @@
     <string name="choose_date">Choose date</string>
     <string name="delivery">Delivery</string>
     <string name="price">Price</string>
+    <string name="orders">Orders</string>
+    <string name="new_order">New order</string>
+    <string name="part_type">Part type</string>
 </resources>
