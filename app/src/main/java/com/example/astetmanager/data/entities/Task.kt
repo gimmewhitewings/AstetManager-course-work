@@ -10,7 +10,7 @@ data class Task(
     val taskId: Int,
     val orderId: Int,
     val partTypeId: Int,
-    val userId: Int,
+    val userId: Int? = null,
     val isCompleted: Boolean = false,
     val creationDate: Timestamp
 )
