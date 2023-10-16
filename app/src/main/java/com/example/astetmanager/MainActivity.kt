@@ -75,7 +75,7 @@ class MainActivity : ComponentActivity() {
                                                     id = if (isSelected) {
                                                         screen.selectedIconResourceId
                                                     } else {
-                                                        screen.iconResourceId
+                                                        screen.unselectedIconResourceId
                                                     }
                                                 ),
                                                 contentDescription = null
@@ -83,7 +83,7 @@ class MainActivity : ComponentActivity() {
                                         },
                                         label = {
                                             Text(
-                                                text = stringResource(id = screen.resourceId),
+                                                text = stringResource(id = screen.stringResourceId),
                                                 maxLines = 1,
                                                 fontSize = 10.sp
                                             )

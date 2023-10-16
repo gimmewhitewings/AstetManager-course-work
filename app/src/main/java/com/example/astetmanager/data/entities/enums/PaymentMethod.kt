@@ -1,4 +1,4 @@
-package com.example.astetmanager.ui.screens.application
+package com.example.astetmanager.data.entities.enums
 
 import com.example.astetmanager.R
 
