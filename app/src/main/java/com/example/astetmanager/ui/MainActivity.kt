@@ -1,4 +1,4 @@
-package com.example.astetmanager
+package com.example.astetmanager.ui
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -25,8 +25,6 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.astetmanager.ui.screens.new_order.NewOrderScreen
 import com.example.astetmanager.ui.screens.new_order.NewOrderViewModel
-import com.example.astetmanager.ui.screens.complect.ComplectScreen
-import com.example.astetmanager.ui.screens.complect.ComplectViewModel
 import com.example.astetmanager.ui.screens.orders.OrdersScreen
 import com.example.astetmanager.ui.screens.orders.OrdersViewModel
 import com.example.astetmanager.ui.screens.home.HomeScreen
@@ -134,7 +132,6 @@ class MainActivity : ComponentActivity() {
         composable(Screen.BottomBarScreen.Storage.route) {
             val storageViewModel = hiltViewModel<StorageViewModel>()
             StorageScreen(
-                navController = navController,
                 viewModel = storageViewModel
             )
         }

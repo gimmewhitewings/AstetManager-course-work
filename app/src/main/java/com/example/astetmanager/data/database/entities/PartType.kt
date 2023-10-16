@@ -12,7 +12,7 @@ data class PartType(
     val partTypeClass: PartTypeClass,
     val articular: String,
     val partTypeSize: PartTypeSize,
-    val costRub: Int,
+    val costRub: Int = 0,
     val count: Int = 0
 )
 

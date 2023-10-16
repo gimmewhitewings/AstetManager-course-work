@@ -25,7 +25,7 @@ class NewOrderViewModel @Inject constructor() : ViewModel() {
     }
 
     fun setDesignText(designText: String) {
-        _uiState.update { it.copy(designText = designText) }
+        _uiState.update { it.copy(articularText = designText) }
     }
 
     fun setSelectedComplectSize(complectSize: PartTypeSize) {
@@ -77,7 +77,7 @@ data class ApplicationUiState(
     val placeholder: String = "",
     val counterparty: Counterparty = Counterparty.OZON,
     val paymentMethod: PaymentMethod = PaymentMethod.CASH,
-    val designText: String = "",
+    val articularText: String = "",
     val selectedComplectSize: PartTypeSize = PartTypeSize.M,
     val pillowcasesAmount: Int = 0,
     val sheetsAmount: Int = 0,

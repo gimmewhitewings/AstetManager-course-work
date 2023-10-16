@@ -34,7 +34,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.example.astetmanager.R
-import com.example.astetmanager.Screen
+import com.example.astetmanager.ui.Screen
 import com.example.astetmanager.ui.theme.AstetManagerTheme
 
 @Composable

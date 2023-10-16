@@ -1,8 +1,6 @@
 package com.example.astetmanager.ui.screens.storage
 
 import androidx.compose.animation.core.animateDpAsState
-import androidx.compose.foundation.gestures.rememberScrollableState
-import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -16,7 +14,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.filled.Search
-import androidx.compose.material3.AssistChip
 import androidx.compose.material3.BottomSheetScaffold
 import androidx.compose.material3.ElevatedButton
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -25,10 +22,7 @@ import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.PrimaryTabRow
 import androidx.compose.material3.SearchBar
-import androidx.compose.material3.SecondaryScrollableTabRow
-import androidx.compose.material3.SecondaryTabRow
 import androidx.compose.material3.Tab
 import androidx.compose.material3.TabRow
 import androidx.compose.material3.Text
@@ -44,26 +38,41 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.navigation.NavController
 import com.example.astetmanager.R
-import com.example.astetmanager.Screen
 import com.example.astetmanager.data.database.entities.enums.PartTypeClass
+import com.example.astetmanager.data.database.entities.enums.PartTypeSize
 import com.example.astetmanager.data.database.entities.enums.getStringResourceId
-import com.example.astetmanager.ui.theme.AstetManagerTheme
+import com.example.astetmanager.ui.screens.complect.components.PartTypeClassAmountChooser
+import com.example.astetmanager.ui.screens.complect.components.ComplectPartsAmountsBlock
+import com.example.astetmanager.ui.screens.complect.components.ComplectSizeChooser
 import kotlinx.coroutines.launch
 
 @Composable
 fun StorageScreen(
-    navController: NavController,
     viewModel: StorageViewModel
 ) {
     val viewState by viewModel.uiState.collectAsStateWithLifecycle()
     StorageScreenContent(
-        onAddNewComplectButtonClick = {  },
-        onAddPartTypeButtonClick = { }
+        onAddNewComplectButtonClick = { },
+        onAddPartTypeButtonClick = { },
+        addingPartTypeClassAmount = viewState.addingPartTypeClassAmount,
+        increaseAddingPartTypeClassAmount = viewModel::increaseAddingPartTypeClassAmount,
+        decreaseAddingPartClassAmount = viewModel::decreaseAddingPartTypeClassAmount,
+        selectedAddingPartTypeClass = viewState.selectedAddingPartTypeClass,
+        selectAddingPartTypeClass = viewModel::selectAddingPartTypeClass,
+        pillowcasesAmount = viewState.pillowcasesAmount,
+        sheetsAmount = viewState.sheetsAmount,
+        duvetCoversAmount = viewState.duvetCoversAmount,
+        onRemovePillowcaseButtonClick = viewModel::removePillowCase,
+        onAddPillowcaseButtonClick = viewModel::addPillowCase,
+        onRemoveSheetButtonClick = viewModel::removeSheet,
+        onAddSheetButtonClick = viewModel::addSheet,
+        onRemoveDuvetCoverButtonClick = viewModel::removeDuvetCover,
+        onAddDuvetCoverButtonClick = viewModel::addDuvetCover,
+        selectedPartTypeSize = viewState.selectedPartTypeSize,
+        setPartTypeSize = viewModel::setSelectedPartTypeSize
     )
 }
 
@@ -71,7 +80,23 @@ fun StorageScreen(
 @Composable
 fun StorageScreenContent(
     onAddNewComplectButtonClick: () -> Unit = {},
-    onAddPartTypeButtonClick: () -> Unit = {}
+    onAddPartTypeButtonClick: () -> Unit = {},
+    addingPartTypeClassAmount: Int,
+    increaseAddingPartTypeClassAmount: () -> Unit,
+    decreaseAddingPartClassAmount: () -> Unit,
+    selectedAddingPartTypeClass: PartTypeClass,
+    selectAddingPartTypeClass: (PartTypeClass) -> Unit,
+    pillowcasesAmount: Int,
+    sheetsAmount: Int,
+    duvetCoversAmount: Int,
+    onRemovePillowcaseButtonClick: () -> Unit,
+    onAddPillowcaseButtonClick: () -> Unit,
+    onRemoveSheetButtonClick: () -> Unit,
+    onAddSheetButtonClick: () -> Unit,
+    onRemoveDuvetCoverButtonClick: () -> Unit,
+    onAddDuvetCoverButtonClick: () -> Unit,
+    selectedPartTypeSize: PartTypeSize,
+    setPartTypeSize: (PartTypeSize) -> Unit
 ) {
     var state by remember { mutableIntStateOf(0) }
     val titles = listOf(
@@ -80,7 +105,6 @@ fun StorageScreenContent(
         stringResource(id = R.string.complects)
     )
     var selectedAddingTabIndex by remember { mutableIntStateOf(0) }
-    var selectedAddingPartTypeIndex by remember { mutableIntStateOf(0) }
     var searchText by remember { mutableStateOf("") }
     var isSearchActive by remember { mutableStateOf(false) }
     val searchBarPadding by animateDpAsState(
@@ -120,7 +144,9 @@ fun StorageScreenContent(
                             }
                         }
                     },
-                    content = {}
+                    content = {
+                        // TODO: implement search
+                    }
                 )
                 TabRow(
                     selectedTabIndex = state
@@ -160,28 +186,63 @@ fun StorageScreenContent(
                 }
             }
 
+            ComplectSizeChooser(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp),
+                selectedComplectSize = selectedPartTypeSize,
+                setComplectSize = setPartTypeSize
+            )
+
             if (selectedAddingTabIndex == AddingTab.PART_TYPE.ordinal) {
                 val horizontalScrollState = rememberScrollState()
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .horizontalScroll(horizontalScrollState)
-                        .padding(vertical = 32.dp),
+                        .horizontalScroll(horizontalScrollState),
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
-                    PartTypeClass.entries.forEachIndexed { index, partTypeClass ->
+                    PartTypeClass.entries.forEach { partTypeClass ->
                         FilterChip(
                             modifier = Modifier.padding(horizontal = 8.dp),
-                            selected = index == selectedAddingPartTypeIndex,
-                            onClick = { selectedAddingPartTypeIndex = index },
+                            selected = partTypeClass == selectedAddingPartTypeClass,
+                            onClick = { selectAddingPartTypeClass(partTypeClass) },
                             label = { Text(text = stringResource(id = partTypeClass.getStringResourceId())) }
                         )
                     }
                 }
+                PartTypeClassAmountChooser(
+                    modifier = Modifier.fillMaxWidth(),
+                    text = stringResource(selectedAddingPartTypeClass.getStringResourceId()),
+                    counterValue = addingPartTypeClassAmount,
+                    onRemoveButtonClick = decreaseAddingPartClassAmount,
+                    onAddButtonClick = increaseAddingPartTypeClassAmount
+                )
+            } else {
+                ComplectPartsAmountsBlock(
+                    modifier = Modifier.padding(horizontal = 16.dp),
+                    pillowcasesAmount = pillowcasesAmount,
+                    onRemovePillowcaseButtonClick = onRemovePillowcaseButtonClick,
+                    onAddPillowcaseButtonClick = onAddPillowcaseButtonClick,
+                    sheetsAmount = sheetsAmount,
+                    onRemoveSheetButtonClick = onRemoveSheetButtonClick,
+                    onAddSheetButtonClick = onAddSheetButtonClick,
+                    duvetCoversAmount = duvetCoversAmount,
+                    onRemoveDuvetCoverButtonClick = onRemoveDuvetCoverButtonClick,
+                    onAddDuvetCoverButtonClick = onAddDuvetCoverButtonClick
+                )
             }
             ElevatedButton(
-                modifier = Modifier.fillMaxWidth(),
-                onClick = { /*TODO*/ }
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp),
+                onClick = when (selectedAddingTabIndex) {
+                    AddingTab.PART_TYPE.ordinal -> onAddPartTypeButtonClick
+                    AddingTab.COMPLECT.ordinal -> onAddNewComplectButtonClick
+                    else -> {
+                        throw IllegalArgumentException()
+                    }
+                }
             ) {
                 Text(text = stringResource(id = R.string.add))
             }
@@ -209,22 +270,12 @@ fun StorageScreenContent(
     }
 }
 
-enum class AddingTab {
-    PART_TYPE,
-    COMPLECT
-}
 
-fun AddingTab.getStringResourceId(): Int {
-    return when (this) {
-        AddingTab.PART_TYPE -> R.string.part_type
-        AddingTab.COMPLECT -> R.string.complect
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun StorageScreenContent_Preview() {
-    AstetManagerTheme {
-        StorageScreenContent()
-    }
-}
+//@Preview(showBackground = true)
+//@Preview(showBackground = true, locale = "ru", name = "Russian")
+//@Composable
+//fun StorageScreenContent_Preview() {
+//    AstetManagerTheme {
+//        StorageScreenContent()
+//    }
+//}

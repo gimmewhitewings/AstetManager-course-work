@@ -53,7 +53,7 @@ fun ComplectScreen(
         setComplectName = viewModel::setComplectName,
         onClearComplectNameButtonClick = viewModel::clearComplectName,
         complectVendorCode = viewState.complectVendorCode,
-        setComplectVendorCode = viewModel::setComplectVendorCode,
+        setComplectVendorCode = viewModel::setComplectArticularCode,
         selectedComplectPartTypeSize = viewState.selectedComplectPartTypeSize,
         setComplectSize = viewModel::setSelectedComplectSize,
         pillowcasesAmount = viewState.pillowcasesAmount,

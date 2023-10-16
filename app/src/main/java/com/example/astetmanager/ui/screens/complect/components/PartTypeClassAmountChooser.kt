@@ -15,7 +15,7 @@ import androidx.compose.ui.res.vectorResource
 import com.example.astetmanager.R
 
 @Composable
-fun ComplectPartAmountChooser(
+fun PartTypeClassAmountChooser(
     modifier: Modifier,
     text: String,
     counterValue: Int,

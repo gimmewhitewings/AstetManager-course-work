@@ -55,7 +55,7 @@ fun NewOrderScreen(
         setCounterparty = viewModel::setCounterparty,
         paymentMethod = viewState.paymentMethod,
         setPaymentMethod = viewModel::setPaymentMethod,
-        designText = viewState.designText,
+        designText = viewState.articularText,
         setDesignText = viewModel::setDesignText,
         selectedComplectSize = viewState.selectedComplectSize,
         setComplectSize = viewModel::setSelectedComplectSize,

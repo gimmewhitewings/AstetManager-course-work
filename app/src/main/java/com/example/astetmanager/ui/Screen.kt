@@ -1,7 +1,8 @@
-package com.example.astetmanager
+package com.example.astetmanager.ui
 
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
+import com.example.astetmanager.R
 
 sealed class Screen(
     open val route: String,

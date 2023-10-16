@@ -40,7 +40,7 @@ fun ScheduleScreen(
 
 @Composable
 fun ScheduleScreenContent() {
-    var state by remember { mutableIntStateOf(0) }
+    var topAppBarSelectedTabIndex by remember { mutableIntStateOf(0) }
     val titles = listOf(
         stringResource(id = R.string.week),
         stringResource(id = R.string.month),
@@ -55,11 +55,11 @@ fun ScheduleScreenContent() {
                     style = MaterialTheme.typography.titleLarge,
                     modifier = Modifier.padding(vertical = 24.dp, horizontal = 12.dp)
                 )
-                TabRow(selectedTabIndex = state) {
+                TabRow(selectedTabIndex = topAppBarSelectedTabIndex) {
                     titles.forEachIndexed { index, title ->
                         Tab(
-                            selected = state == index,
-                            onClick = { state = index },
+                            selected = topAppBarSelectedTabIndex == index,
+                            onClick = { topAppBarSelectedTabIndex = index },
                             text = {
                                 Text(
                                     text = title,

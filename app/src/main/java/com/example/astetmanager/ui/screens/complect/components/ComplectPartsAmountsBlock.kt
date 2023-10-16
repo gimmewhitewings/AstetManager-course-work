@@ -24,7 +24,7 @@ fun ComplectPartsAmountsBlock(
         modifier = modifier
     ) {
         // Pillowcases
-        ComplectPartAmountChooser(
+        PartTypeClassAmountChooser(
             modifier = Modifier
                 .fillMaxWidth(),
             text = stringResource(id = R.string.pillowcases),
@@ -33,7 +33,7 @@ fun ComplectPartsAmountsBlock(
             onAddButtonClick = onAddPillowcaseButtonClick
         )
         // Sheets
-        ComplectPartAmountChooser(
+        PartTypeClassAmountChooser(
             modifier = Modifier
                 .fillMaxWidth(),
             text = stringResource(id = R.string.sheets),
@@ -42,7 +42,7 @@ fun ComplectPartsAmountsBlock(
             onAddButtonClick = onAddSheetButtonClick
         )
         // Duvet covers
-        ComplectPartAmountChooser(
+        PartTypeClassAmountChooser(
             modifier = Modifier
                 .fillMaxWidth(),
             text = stringResource(id = R.string.duvet_covers),

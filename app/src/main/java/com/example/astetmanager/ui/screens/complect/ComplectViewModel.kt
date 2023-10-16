@@ -21,7 +21,7 @@ class ComplectViewModel @Inject constructor() : ViewModel() {
 
     fun clearComplectName() = setComplectName("")
 
-    fun setComplectVendorCode(complectVendorCode: String) = _uiState.update {
+    fun setComplectArticularCode(complectVendorCode: String) = _uiState.update {
         it.copy(complectVendorCode = complectVendorCode)
     }
 

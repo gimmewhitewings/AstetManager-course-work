@@ -2,10 +2,13 @@ package com.example.astetmanager.ui.screens.storage
 
 import androidx.lifecycle.ViewModel
 import com.example.astetmanager.data.AppRepository
+import com.example.astetmanager.data.database.entities.enums.PartTypeClass
+import com.example.astetmanager.data.database.entities.enums.PartTypeSize
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 
 @HiltViewModel
 class StorageViewModel @Inject constructor(
@@ -13,8 +16,80 @@ class StorageViewModel @Inject constructor(
 ) : ViewModel() {
     private val _uiState = MutableStateFlow(StorageUiState())
     val uiState = _uiState.asStateFlow()
+
+    fun setArticularText(articularText: String) {
+        _uiState.update { it.copy(articularText = articularText) }
+    }
+
+
+    fun increaseAddingPartTypeClassAmount() {
+        _uiState.update { it.copy(addingPartTypeClassAmount = it.addingPartTypeClassAmount + 1) }
+    }
+
+    fun decreaseAddingPartTypeClassAmount() {
+        _uiState.update {
+            it.copy(
+                addingPartTypeClassAmount = if (it.addingPartTypeClassAmount == 0) 0 else it.addingPartTypeClassAmount - 1
+            )
+        }
+    }
+
+    fun addPillowCase() {
+        _uiState.update { it.copy(pillowcasesAmount = it.pillowcasesAmount + 1) }
+    }
+
+    fun removePillowCase() {
+        _uiState.update {
+            it.copy(
+                pillowcasesAmount = if (it.pillowcasesAmount == 0) 0 else it.pillowcasesAmount - 1
+            )
+        }
+    }
+
+    fun addSheet() {
+        _uiState.update { it.copy(sheetsAmount = it.sheetsAmount + 1) }
+    }
+
+    fun removeSheet() {
+        _uiState.update {
+            it.copy(
+                sheetsAmount = if (it.sheetsAmount == 0) 0 else it.sheetsAmount - 1
+            )
+        }
+    }
+
+    fun addDuvetCover() {
+        _uiState.update { it.copy(duvetCoversAmount = it.duvetCoversAmount + 1) }
+    }
+
+    fun removeDuvetCover() {
+        _uiState.update {
+            it.copy(
+                duvetCoversAmount = if (it.duvetCoversAmount == 0) 0 else it.duvetCoversAmount - 1
+            )
+        }
+    }
+
+    fun selectAddingPartTypeClass(partTypeClass: PartTypeClass) {
+        _uiState.update {
+            it.copy(
+                selectedAddingPartTypeClass = partTypeClass
+            )
+        }
+    }
+
+    fun setSelectedPartTypeSize(partTypeSize: PartTypeSize) = _uiState.update {
+        it.copy(selectedPartTypeSize = partTypeSize)
+    }
 }
 
 data class StorageUiState(
-    val placeholder: String = ""
+    val selectedAddingPartTypeClass: PartTypeClass = PartTypeClass.SHEET,
+    val addingPartTypeClassAmount: Int = 0,
+    val articularText: String = "",
+    val selectedComplectSize: PartTypeSize = PartTypeSize.M,
+    val pillowcasesAmount: Int = 0,
+    val sheetsAmount: Int = 0,
+    val duvetCoversAmount: Int = 0,
+    val selectedPartTypeSize: PartTypeSize = PartTypeSize.M,
 )

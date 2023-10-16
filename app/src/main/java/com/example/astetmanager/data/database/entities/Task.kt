@@ -2,6 +2,7 @@ package com.example.astetmanager.data.database.entities
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import java.util.Date
 
 @Entity
 data class Task(
@@ -11,5 +12,5 @@ data class Task(
     val partTypeId: Int,
     val userId: Int? = null,
     val isCompleted: Boolean = false,
-    val creationDate: Long
+    val creationDate: Long = Date().time
 )
