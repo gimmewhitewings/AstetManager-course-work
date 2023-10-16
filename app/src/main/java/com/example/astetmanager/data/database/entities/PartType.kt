@@ -1,9 +1,9 @@
-package com.example.astetmanager.data.entities
+package com.example.astetmanager.data.database.entities
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.example.astetmanager.data.entities.enums.PartTypeClass
-import com.example.astetmanager.data.entities.enums.Size
+import com.example.astetmanager.data.database.entities.enums.PartTypeClass
+import com.example.astetmanager.data.database.entities.enums.PartTypeSize
 
 @Entity
 data class PartType(
@@ -11,7 +11,7 @@ data class PartType(
     val partTypeId: Int,
     val partTypeClass: PartTypeClass,
     val articular: String,
-    val size: Size,
+    val partTypeSize: PartTypeSize,
     val costRub: Int,
     val count: Int = 0
 )

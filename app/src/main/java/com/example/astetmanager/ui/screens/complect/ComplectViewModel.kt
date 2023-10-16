@@ -1,6 +1,7 @@
 package com.example.astetmanager.ui.screens.complect
 
 import androidx.lifecycle.ViewModel
+import com.example.astetmanager.data.database.entities.enums.PartTypeSize
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -24,8 +25,8 @@ class ComplectViewModel @Inject constructor() : ViewModel() {
         it.copy(complectVendorCode = complectVendorCode)
     }
 
-    fun setSelectedComplectSize(complectSize: ComplectSize) = _uiState.update {
-        it.copy(selectedComplectSize = complectSize)
+    fun setSelectedComplectSize(complectSize: PartTypeSize) = _uiState.update {
+        it.copy(selectedComplectPartTypeSize = complectSize)
     }
 
     fun addPillowCase() = _uiState.update {
@@ -52,13 +53,13 @@ class ComplectViewModel @Inject constructor() : ViewModel() {
         it.copy(duvetCoversAmount = if (it.duvetCoversAmount == 0) 0 else it.duvetCoversAmount - 1)
     }
 
-    fun saveComplectInfo() = {}
+    fun saveComplectInfo(): () -> Unit = {}
 }
 
 data class ComplectUiState(
     val complectName: String = "",
     val complectVendorCode: String = "",
-    val selectedComplectSize: ComplectSize = ComplectSize.M,
+    val selectedComplectPartTypeSize: PartTypeSize = PartTypeSize.M,
     val pillowcasesAmount: Int = 0,
     val sheetsAmount: Int = 0,
     val duvetCoversAmount: Int = 0

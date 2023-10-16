@@ -37,4 +37,9 @@
     <string name="counterparty">Контрагент</string>
     <string name="design">Дизайн</string>
     <string name="payment_method">Оплата</string>
+    <string name="cash">Наличные</string>
+    <string name="card">Карта</string>
+    <string name="choose_date">Выберите дату</string>
+    <string name="delivery">Доставка</string>
+    <string name="price">Цена</string>
 </resources>

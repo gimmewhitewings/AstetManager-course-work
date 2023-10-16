@@ -36,6 +36,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.example.astetmanager.R
+import com.example.astetmanager.data.database.entities.enums.PartTypeSize
 import com.example.astetmanager.ui.screens.complect.components.ComplectPartsAmountsBlock
 import com.example.astetmanager.ui.screens.complect.components.ComplectSizeChooser
 import com.example.astetmanager.ui.theme.AstetManagerTheme
@@ -53,7 +54,7 @@ fun ComplectScreen(
         onClearComplectNameButtonClick = viewModel::clearComplectName,
         complectVendorCode = viewState.complectVendorCode,
         setComplectVendorCode = viewModel::setComplectVendorCode,
-        selectedComplectSize = viewState.selectedComplectSize,
+        selectedComplectPartTypeSize = viewState.selectedComplectPartTypeSize,
         setComplectSize = viewModel::setSelectedComplectSize,
         pillowcasesAmount = viewState.pillowcasesAmount,
         onAddPillowcaseButtonClick = viewModel::addPillowCase,
@@ -77,8 +78,8 @@ fun ComplectScreenContent(
     onClearComplectNameButtonClick: () -> Unit = {},
     complectVendorCode: String = "",
     setComplectVendorCode: (String) -> Unit = {},
-    selectedComplectSize: ComplectSize = ComplectSize.M,
-    setComplectSize: (ComplectSize) -> Unit = {},
+    selectedComplectPartTypeSize: PartTypeSize = PartTypeSize.M,
+    setComplectSize: (PartTypeSize) -> Unit = {},
     pillowcasesAmount: Int = 0,
     onAddPillowcaseButtonClick: () -> Unit = {},
     onRemovePillowcaseButtonClick: () -> Unit = {},
@@ -178,7 +179,7 @@ fun ComplectScreenContent(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(16.dp),
-                    selectedComplectSize = selectedComplectSize,
+                    selectedComplectSize = selectedComplectPartTypeSize,
                     setComplectSize = setComplectSize
                 )
 

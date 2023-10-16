@@ -1,9 +1,9 @@
 plugins {
-    kotlin("kapt")
+    id ("org.jetbrains.kotlin.kapt")
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
-    id("com.google.dagger.hilt.android")
     id("com.google.devtools.ksp")
+    id("com.google.dagger.hilt.android")
     id("org.jlleitschuh.gradle.ktlint")
 }
 
@@ -63,24 +63,18 @@ ktlint {
     }
 }
 
+kapt {
+    correctErrorTypes = true
+}
+
 dependencies {
 
     // Jetpack navigation
     implementation("androidx.navigation:navigation-compose:2.7.4")
 
-    // Dagger Hilt
-    implementation("com.google.dagger:hilt-android:2.48.1")
-    kapt("com.google.dagger:hilt-android-compiler:2.48.1")
 
     // Hilt navigation compose
     implementation("androidx.hilt:hilt-navigation-compose:1.0.0")
-
-    // Retrofit
-    implementation("com.squareup.retrofit2:retrofit:2.9.0")
-
-    // Moshi
-    implementation("com.squareup.moshi:moshi:1.15.0")
-    ksp("com.squareup.moshi:moshi-kotlin-codegen:1.15.0")
 
     // Room
     implementation("androidx.room:room-runtime:2.5.2")
@@ -88,6 +82,10 @@ dependencies {
     ksp("androidx.room:room-compiler:2.5.2")
     // optional - Kotlin Extensions and Coroutines support for Room
     implementation("androidx.room:room-ktx:2.5.2")
+
+    // Dagger Hilt
+    implementation("com.google.dagger:hilt-android:2.48.1")
+    ksp("com.google.dagger:hilt-android-compiler:2.48.1")
 
     implementation("androidx.lifecycle:lifecycle-runtime-compose:2.7.0-alpha02")
 
@@ -106,8 +104,4 @@ dependencies {
     androidTestImplementation("androidx.compose.ui:ui-test-junit4")
     debugImplementation("androidx.compose.ui:ui-tooling")
     debugImplementation("androidx.compose.ui:ui-test-manifest:1.5.3")
-}
-
-kapt {
-    correctErrorTypes = true
 }

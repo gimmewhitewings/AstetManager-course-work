@@ -36,7 +36,10 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.example.astetmanager.R
-import com.example.astetmanager.ui.screens.complect.ComplectSize
+import com.example.astetmanager.data.database.entities.enums.Counterparty
+import com.example.astetmanager.data.database.entities.enums.PartTypeSize
+import com.example.astetmanager.data.database.entities.enums.PaymentMethod
+import com.example.astetmanager.data.database.entities.enums.getStringResourceId
 import com.example.astetmanager.ui.screens.complect.components.ComplectPartsAmountsBlock
 import com.example.astetmanager.ui.screens.complect.components.ComplectSizeChooser
 import com.example.astetmanager.ui.theme.AstetManagerTheme
@@ -84,8 +87,8 @@ fun ApplicationScreenContent(
     setPaymentMethod: (PaymentMethod) -> Unit,
     designText: String,
     setDesignText: (String) -> Unit,
-    selectedComplectSize: ComplectSize,
-    setComplectSize: (ComplectSize) -> Unit,
+    selectedComplectSize: PartTypeSize,
+    setComplectSize: (PartTypeSize) -> Unit,
     pillowcasesAmount: Int,
     onAddPillowcaseButtonClick: () -> Unit,
     onRemovePillowcaseButtonClick: () -> Unit,
@@ -285,7 +288,7 @@ fun ApplicationScreenContent_Preview() {
             setPaymentMethod = {},
             designText = "hey",
             setDesignText = {},
-            selectedComplectSize = ComplectSize.M,
+            selectedComplectSize = PartTypeSize.M,
             setComplectSize = {},
             pillowcasesAmount = 2,
             onAddPillowcaseButtonClick = { },

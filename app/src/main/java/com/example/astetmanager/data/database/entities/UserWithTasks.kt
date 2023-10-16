@@ -1,11 +1,11 @@
-package com.example.astetmanager.data.entities
+package com.example.astetmanager.data.database.entities
 
 import androidx.room.Embedded
 import androidx.room.Relation
 
 data class UserWithTasks(
     @Embedded
-    val userId: Int,
+    val user: User,
     @Relation(
         parentColumn = "userId",
         entityColumn = "userId"

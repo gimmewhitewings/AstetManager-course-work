@@ -44,7 +44,6 @@
     <string name="vk" translatable="false">VK</string>
     <string name="cash">Cash</string>
     <string name="card">Card</string>
-    <string name="choose_data">Shoose data</string>
     <string name="choose_date">Choose date</string>
     <string name="delivery">Delivery</string>
     <string name="price">Price</string>

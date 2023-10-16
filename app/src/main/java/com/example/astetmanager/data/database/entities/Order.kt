@@ -1,9 +1,8 @@
-package com.example.astetmanager.data.entities
+package com.example.astetmanager.data.database.entities
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.example.astetmanager.data.entities.enums.OrderStatus
-import java.sql.Timestamp
+import com.example.astetmanager.data.database.entities.enums.OrderStatus
 
 @Entity
 data class Order(
@@ -11,6 +10,6 @@ data class Order(
     val orderId: Int,
     val orderStatus: OrderStatus,
     val priceRub: Int,
-    val creationDate: Timestamp
+    val creationDate: Long
 )
 

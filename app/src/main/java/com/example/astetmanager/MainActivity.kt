@@ -23,8 +23,6 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.astetmanager.ui.screens.application.ApplicationScreen
 import com.example.astetmanager.ui.screens.application.ApplicationViewModel
-import com.example.astetmanager.ui.screens.cloth.ClothScreen
-import com.example.astetmanager.ui.screens.cloth.ClothViewModel
 import com.example.astetmanager.ui.screens.complect.ComplectScreen
 import com.example.astetmanager.ui.screens.complect.ComplectViewModel
 import com.example.astetmanager.ui.screens.documents.DocumentsScreen
@@ -140,13 +138,13 @@ class MainActivity : ComponentActivity() {
                             )
                         }
 
-                        composable(Screen.Cloth.route) {
-                            val clothViewModel = hiltViewModel<ClothViewModel>()
-                            ClothScreen(
-                                navController = navController,
-                                viewModel = clothViewModel
-                            )
-                        }
+//                        composable(Screen.Cloth.route) {
+//                            val clothViewModel = hiltViewModel<ClothViewModel>()
+//                            ClothScreen(
+//                                navController = navController,
+//                                viewModel = clothViewModel
+//                            )
+//                        }
 
                         composable(Screen.Application.route) {
                             val applicationViewModel = hiltViewModel<ApplicationViewModel>()

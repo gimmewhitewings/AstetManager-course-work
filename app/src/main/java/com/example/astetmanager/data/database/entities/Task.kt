@@ -1,8 +1,7 @@
-package com.example.astetmanager.data.entities
+package com.example.astetmanager.data.database.entities
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import java.sql.Timestamp
 
 @Entity
 data class Task(
@@ -12,5 +11,5 @@ data class Task(
     val partTypeId: Int,
     val userId: Int? = null,
     val isCompleted: Boolean = false,
-    val creationDate: Timestamp
+    val creationDate: Long
 )

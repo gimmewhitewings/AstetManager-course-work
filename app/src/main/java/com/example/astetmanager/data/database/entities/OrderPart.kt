@@ -1,4 +1,4 @@
-package com.example.astetmanager.data.entities
+package com.example.astetmanager.data.database.entities
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

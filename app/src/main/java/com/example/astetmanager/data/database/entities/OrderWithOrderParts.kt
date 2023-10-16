@@ -1,13 +1,13 @@
-package com.example.astetmanager.data.entities
+package com.example.astetmanager.data.database.entities
 
 import androidx.room.Embedded
 import androidx.room.Relation
 
-data class OrderWithTasks(
+data class OrderWithOrderParts(
     @Embedded val order: Order,
     @Relation(
         parentColumn = "orderId",
         entityColumn = "orderId"
     )
-    val tasks: List<Task>
+    val orderParts: List<OrderPart>
 )

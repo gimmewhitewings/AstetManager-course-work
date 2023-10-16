@@ -1,7 +1,9 @@
 package com.example.astetmanager.ui.screens.application
 
 import androidx.lifecycle.ViewModel
-import com.example.astetmanager.ui.screens.complect.ComplectSize
+import com.example.astetmanager.data.database.entities.enums.Counterparty
+import com.example.astetmanager.data.database.entities.enums.PartTypeSize
+import com.example.astetmanager.data.database.entities.enums.PaymentMethod
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -26,7 +28,7 @@ class ApplicationViewModel @Inject constructor() : ViewModel() {
         _uiState.update { it.copy(designText = designText) }
     }
 
-    fun setSelectedComplectSize(complectSize: ComplectSize) {
+    fun setSelectedComplectSize(complectSize: PartTypeSize) {
         _uiState.update { it.copy(selectedComplectSize = complectSize) }
     }
 
@@ -76,7 +78,7 @@ data class ApplicationUiState(
     val counterparty: Counterparty = Counterparty.OZON,
     val paymentMethod: PaymentMethod = PaymentMethod.CASH,
     val designText: String = "",
-    val selectedComplectSize: ComplectSize = ComplectSize.M,
+    val selectedComplectSize: PartTypeSize = PartTypeSize.M,
     val pillowcasesAmount: Int = 0,
     val sheetsAmount: Int = 0,
     val duvetCoversAmount: Int = 0,

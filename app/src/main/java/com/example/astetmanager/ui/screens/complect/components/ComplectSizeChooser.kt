@@ -9,19 +9,19 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import com.example.astetmanager.ui.screens.complect.ComplectSize
+import com.example.astetmanager.data.database.entities.enums.PartTypeSize
 
 @Composable
 fun ComplectSizeChooser(
     modifier: Modifier,
-    selectedComplectSize: ComplectSize,
-    setComplectSize: (ComplectSize) -> Unit
+    selectedComplectSize: PartTypeSize,
+    setComplectSize: (PartTypeSize) -> Unit
 ) {
     Row(
         horizontalArrangement = Arrangement.SpaceBetween,
         modifier = modifier
     ) {
-        ComplectSize.entries.forEach { size ->
+        PartTypeSize.entries.forEach { size ->
             val isSelected = (size == selectedComplectSize)
             AssistChip(
                 onClick = { setComplectSize(size) },

@@ -64,7 +64,7 @@ fun MyListItem(
     }
 }
 
-@Preview()
+@Preview
 @Composable
 fun ListItem_Preview() {
     AstetManagerTheme {

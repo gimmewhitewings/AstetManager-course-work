@@ -1,8 +1,8 @@
-package com.example.astetmanager.data.entities
+package com.example.astetmanager.data.database.entities
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.example.astetmanager.data.entities.enums.UserRole
+import com.example.astetmanager.data.database.entities.enums.UserRole
 
 @Entity
 data class User(
