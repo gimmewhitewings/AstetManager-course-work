@@ -12,6 +12,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
@@ -38,6 +39,10 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.example.astetmanager.R
 import com.example.astetmanager.data.database.entities.Order
+import com.example.astetmanager.data.database.entities.enums.Counterparty
+import com.example.astetmanager.data.database.entities.enums.OrderStatus
+import com.example.astetmanager.data.database.entities.enums.PaymentMethod
+import com.example.astetmanager.data.database.entities.enums.getStringResourceId
 import com.example.astetmanager.ui.Screen
 import com.example.astetmanager.ui.theme.AstetManagerTheme
 
@@ -48,7 +53,7 @@ fun OrdersScreen(
 ) {
     val viewState by viewModel.uiState.collectAsStateWithLifecycle()
     OrdersScreenContent(
-        orders = viewState.orders,
+        ordersUiStates = viewState.orderUiStates,
         onAddNewOrderButtonClick = { navController.navigate(Screen.NewOrder.route) }
     )
 }
@@ -56,7 +61,7 @@ fun OrdersScreen(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun OrdersScreenContent(
-    orders: List<Order>,
+    ordersUiStates: List<OrderUiState>,
     onAddNewOrderButtonClick: () -> Unit = {},
 ) {
 //    var selectedTabIndex by remember { mutableIntStateOf(0) }
@@ -137,9 +142,43 @@ fun OrdersScreenContent(
             modifier = Modifier.padding(innerPadding),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            items(orders) { order ->
-                Text(text = order.toString())
+            items(ordersUiStates) { orderUiState ->
+                OrderItem(
+                    modifier = Modifier.fillMaxWidth(),
+                    counterparty = orderUiState.counterparty,
+                    paymentMethod = orderUiState.paymentMethod,
+                    articular = orderUiState.articular,
+                    tasksCount = orderUiState.tasksCount,
+                    status = orderUiState.status
+                )
             }
+        }
+    }
+}
+
+@Composable
+fun OrderItem(
+    modifier: Modifier = Modifier,
+    counterparty: Counterparty,
+    paymentMethod: PaymentMethod,
+    articular: String?,
+    tasksCount: Int?,
+    status: OrderStatus
+) {
+    Card(
+        modifier = modifier,
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp),
+            verticalArrangement = Arrangement.spacedBy(4.dp),
+            horizontalAlignment = Alignment.Start
+        ) {
+            articular?.let { Text(text = it) }
+            Text(text = "Задачи $tasksCount")
+            Text(text = stringResource(id = counterparty.getStringResourceId()))
+            Text(text = stringResource(id = paymentMethod.getStringResourceId()))
         }
     }
 }

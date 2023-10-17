@@ -2,6 +2,7 @@ package com.example.astetmanager.data
 
 import com.example.astetmanager.data.database.AstetDao
 import com.example.astetmanager.data.database.entities.Order
+import com.example.astetmanager.data.database.entities.OrderPart
 import com.example.astetmanager.data.database.entities.PartType
 import com.example.astetmanager.data.database.entities.Task
 import com.example.astetmanager.data.database.entities.User
@@ -44,6 +45,13 @@ class AppRepository @Inject constructor(
                     articular = articular
                 )
             )
+            astetDao.insertOrderPart(
+                OrderPart(
+                    orderId = orderId,
+                    partTypeId = partTypeId.toInt(),
+                    count = count
+                )
+            )
             repeat(count) {
                 astetDao.insertTask(
                     Task(
@@ -54,6 +62,13 @@ class AppRepository @Inject constructor(
                 )
             }
         } else {
+            astetDao.insertOrderPart(
+                OrderPart(
+                    orderId = orderId,
+                    partTypeId = partType.partTypeId!!,
+                    count = count
+                )
+            )
             repeat(count) {
                 astetDao.insertTask(
                     Task(
@@ -89,4 +104,7 @@ class AppRepository @Inject constructor(
         astetDao.updateTask(newValue)
     }
 
+    fun getOrdersWithOrderParts() = astetDao.getOrderWithOrderParts()
+    suspend fun countTasksForOrderById(orderId: Int): Int = astetDao.countTasksForOrderById(orderId)
+    suspend fun getPartTypeArticularById(partTypeId: Int): String = astetDao.getPartTypeArticularById(partTypeId)
 }

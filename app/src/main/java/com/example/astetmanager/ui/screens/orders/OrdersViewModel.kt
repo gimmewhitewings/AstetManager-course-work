@@ -4,6 +4,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.astetmanager.data.AppRepository
 import com.example.astetmanager.data.database.entities.Order
+import com.example.astetmanager.data.database.entities.OrderWithOrderParts
+import com.example.astetmanager.data.database.entities.enums.Counterparty
+import com.example.astetmanager.data.database.entities.enums.OrderStatus
+import com.example.astetmanager.data.database.entities.enums.PaymentMethod
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -20,10 +24,25 @@ class OrdersViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            repository.getAllOrders().collect { orders ->
-                _uiState.update {
-                    it.copy(
-                        orders = orders
+            repository.getOrdersWithOrderParts().collect { ordersWithOrderParts ->
+                _uiState.update { ordersUiState ->
+                    ordersUiState.copy(
+                        orderUiStates = ordersWithOrderParts.map {
+                            val orderStatus = it.order.orderStatus
+                            val counterparty = it.order.counterparty
+                            val paymentMethod = it.order.paymentMethod
+                            val tasksCount = repository.countTasksForOrderById(it.order.orderId!!)
+                            val articular =
+                                it.orderParts.firstOrNull()
+                                    ?.let { orderPart -> repository.getPartTypeArticularById(orderPart.partTypeId) }
+                            return@map OrderUiState(
+                                tasksCount = tasksCount,
+                                status = orderStatus,
+                                counterparty = counterparty,
+                                paymentMethod = paymentMethod,
+                                articular = articular
+                            )
+                        }
                     )
                 }
             }
@@ -32,5 +51,16 @@ class OrdersViewModel @Inject constructor(
 }
 
 data class OrdersUiState(
-    val orders: List<Order> = emptyList()
+    val orderUiStates: List<OrderUiState> = emptyList()
+)
+
+data class OrderUiState(
+    val tasksCount: Int? = null,
+    val pillowcasesCount: Int? = null,
+    val sheetsCount: Int? = null,
+    val duvetCoversCount: Int? = null,
+    val counterparty: Counterparty,
+    val paymentMethod: PaymentMethod,
+    val articular: String?,
+    val status: OrderStatus = OrderStatus.IN_PROGRESS
 )

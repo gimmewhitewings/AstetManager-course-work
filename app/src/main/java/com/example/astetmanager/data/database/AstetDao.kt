@@ -63,6 +63,10 @@ interface AstetDao {
     @Query("SELECT * FROM `Order` WHERE orderId = :orderId")
     fun getOrderWithOrderPartsById(orderId: Int): Flow<List<OrderWithOrderParts>>
 
+    @Transaction
+    @Query("SELECT * FROM `Order`")
+    fun getOrderWithOrderParts(): Flow<List<OrderWithOrderParts>>
+
     @Update
     suspend fun updateOrder(order: Order)
 
@@ -87,6 +91,9 @@ interface AstetDao {
 
     @Query("SELECT * FROM PartType")
     fun getPartTypesWithTasks(): Flow<List<PartTypeWithTasks>>
+
+    @Query("SELECT COUNT(taskId) FROM Task WHERE orderId = :orderId")
+    suspend fun countTasksForOrderById(orderId: Int) : Int
 
     @Update
     suspend fun updateTask(task: Task)
@@ -150,4 +157,7 @@ interface AstetDao {
 
     @Update
     suspend fun updateOrderPart(orderPart: OrderPart)
+
+    @Query("SELECT articular FROM PartType WHERE partTypeId = :partTypeId")
+    suspend fun getPartTypeArticularById(partTypeId: Int): String
 }
