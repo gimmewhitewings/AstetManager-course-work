@@ -51,37 +51,37 @@ fun ScheduleScreenContent(
     partTypeWithTasks: List<PartTypeWithTasks>,
     onToggleTaskCompletion: (Int, Boolean) -> Unit
 ) {
-    var topAppBarSelectedTabIndex by remember { mutableIntStateOf(0) }
-    val titles = listOf(
-        stringResource(id = R.string.week),
-        stringResource(id = R.string.month),
-        stringResource(id = R.string.all)
-    )
+//    var topAppBarSelectedTabIndex by remember { mutableIntStateOf(0) }
+//    val titles = listOf(
+//        stringResource(id = R.string.week),
+//        stringResource(id = R.string.month),
+//        stringResource(id = R.string.all)
+//    )
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         topBar = {
-            Column {
+//            Column {
                 Text(
                     text = stringResource(id = R.string.upcoming_events),
                     style = MaterialTheme.typography.titleLarge,
                     modifier = Modifier.padding(vertical = 24.dp, horizontal = 12.dp)
                 )
-                TabRow(selectedTabIndex = topAppBarSelectedTabIndex) {
-                    titles.forEachIndexed { index, title ->
-                        Tab(
-                            selected = topAppBarSelectedTabIndex == index,
-                            onClick = { topAppBarSelectedTabIndex = index },
-                            text = {
-                                Text(
-                                    text = title,
-                                    maxLines = 1,
-                                    overflow = TextOverflow.Ellipsis
-                                )
-                            }
-                        )
-                    }
-                }
-            }
+//                TabRow(selectedTabIndex = topAppBarSelectedTabIndex) {
+//                    titles.forEachIndexed { index, title ->
+//                        Tab(
+//                            selected = topAppBarSelectedTabIndex == index,
+//                            onClick = { topAppBarSelectedTabIndex = index },
+//                            text = {
+//                                Text(
+//                                    text = title,
+//                                    maxLines = 1,
+//                                    overflow = TextOverflow.Ellipsis
+//                                )
+//                            }
+//                        )
+//                    }
+//                }
+//            }
         }
     ) { innerPadding ->
         LazyColumn(

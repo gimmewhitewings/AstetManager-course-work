@@ -26,6 +26,7 @@ import androidx.compose.material3.FilterChip
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.MaterialTheme.typography
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.SearchBar
@@ -119,19 +120,19 @@ fun StorageScreenContent(
     setArticularText: (String) -> Unit,
     displayablePartTypesList: List<PartType>
 ) {
-    var state by remember { mutableIntStateOf(0) }
-    val titles = listOf(
-        stringResource(id = R.string.all),
-        stringResource(id = R.string.cloth),
-        stringResource(id = R.string.complects)
-    )
+//    var state by remember { mutableIntStateOf(0) }
+//    val titles = listOf(
+//        stringResource(id = R.string.all),
+//        stringResource(id = R.string.cloth),
+//        stringResource(id = R.string.complects)
+//    )
     var selectedAddingTabIndex by remember { mutableIntStateOf(0) }
-    var searchText by remember { mutableStateOf("") }
-    var isSearchActive by remember { mutableStateOf(false) }
-    val searchBarPadding by animateDpAsState(
-        targetValue = if (isSearchActive) 0.dp else 16.dp,
-        label = "searchBarPadding"
-    )
+//    var searchText by remember { mutableStateOf("") }
+//    var isSearchActive by remember { mutableStateOf(false) }
+//    val searchBarPadding by animateDpAsState(
+//        targetValue = if (isSearchActive) 0.dp else 16.dp,
+//        label = "searchBarPadding"
+//    )
     val scaffoldState = rememberBottomSheetScaffoldState(
         bottomSheetState = rememberStandardBottomSheetState(skipHiddenState = false)
     )
@@ -139,56 +140,61 @@ fun StorageScreenContent(
     BottomSheetScaffold(
         modifier = Modifier.fillMaxSize(),
         topBar = {
-            Column {
-                SearchBar(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = searchBarPadding),
-                    query = searchText,
-                    onQueryChange = { searchText = it },
-                    onSearch = { isSearchActive = false },
-                    active = isSearchActive,
-                    onActiveChange = { isSearchActive = it },
-                    leadingIcon = {
-                        Icon(imageVector = Icons.Default.Search, contentDescription = null)
-                    },
-                    trailingIcon = {
-                        if (isSearchActive) {
-                            IconButton(
-                                onClick = {
-                                    if (searchText.isNotEmpty()) {
-                                        searchText = ""
-                                    } else {
-                                        isSearchActive = false
-                                    }
-                                }
-                            ) {
-                                Icon(imageVector = Icons.Default.Clear, contentDescription = null)
-                            }
-                        }
-                    },
-                    content = {
-                        // TODO: implement search
-                    }
-                )
-                TabRow(
-                    selectedTabIndex = state
-                ) {
-                    titles.forEachIndexed { index, title ->
-                        Tab(
-                            selected = state == index,
-                            onClick = { state = index },
-                            text = {
-                                Text(
-                                    text = title,
-                                    maxLines = 1,
-                                    overflow = TextOverflow.Ellipsis
-                                )
-                            }
-                        )
-                    }
-                }
-            }
+            Text(
+                text = stringResource(id = R.string.storage),
+                style = MaterialTheme.typography.titleLarge,
+                modifier = Modifier.padding(vertical = 24.dp, horizontal = 12.dp)
+            )
+//            Column {
+//                SearchBar(
+//                    modifier = Modifier
+//                        .fillMaxWidth()
+//                        .padding(horizontal = searchBarPadding),
+//                    query = searchText,
+//                    onQueryChange = { searchText = it },
+//                    onSearch = { isSearchActive = false },
+//                    active = isSearchActive,
+//                    onActiveChange = { isSearchActive = it },
+//                    leadingIcon = {
+//                        Icon(imageVector = Icons.Default.Search, contentDescription = null)
+//                    },
+//                    trailingIcon = {
+//                        if (isSearchActive) {
+//                            IconButton(
+//                                onClick = {
+//                                    if (searchText.isNotEmpty()) {
+//                                        searchText = ""
+//                                    } else {
+//                                        isSearchActive = false
+//                                    }
+//                                }
+//                            ) {
+//                                Icon(imageVector = Icons.Default.Clear, contentDescription = null)
+//                            }
+//                        }
+//                    },
+//                    content = {
+//                        // TODO: implement search
+//                    }
+//                )
+//                TabRow(
+//                    selectedTabIndex = state
+//                ) {
+//                    titles.forEachIndexed { index, title ->
+//                        Tab(
+//                            selected = state == index,
+//                            onClick = { state = index },
+//                            text = {
+//                                Text(
+//                                    text = title,
+//                                    maxLines = 1,
+//                                    overflow = TextOverflow.Ellipsis
+//                                )
+//                            }
+//                        )
+//                    }
+//                }
+//            }
         },
         scaffoldState = scaffoldState,
         sheetPeekHeight = 0.dp,

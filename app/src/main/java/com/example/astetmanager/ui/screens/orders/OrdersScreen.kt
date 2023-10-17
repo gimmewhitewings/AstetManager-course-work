@@ -59,66 +59,71 @@ fun OrdersScreenContent(
     orders: List<Order>,
     onAddNewOrderButtonClick: () -> Unit = {},
 ) {
-    var selectedTabIndex by remember { mutableIntStateOf(0) }
-    val titles = listOf(
-        stringResource(id = R.string.all),
-        stringResource(id = R.string.applications),
-        stringResource(id = R.string.implementations)
-    )
-    var searchText by remember { mutableStateOf("") }
-    var isSearchActive by remember { mutableStateOf(false) }
-    val searchBarPadding by animateDpAsState(targetValue = if (isSearchActive) 0.dp else 16.dp)
+//    var selectedTabIndex by remember { mutableIntStateOf(0) }
+//    val titles = listOf(
+//        stringResource(id = R.string.all),
+//        stringResource(id = R.string.applications),
+//        stringResource(id = R.string.implementations)
+//    )
+//    var searchText by remember { mutableStateOf("") }
+//    var isSearchActive by remember { mutableStateOf(false) }
+//    val searchBarPadding by animateDpAsState(targetValue = if (isSearchActive) 0.dp else 16.dp)
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         topBar = {
-            Column {
-                SearchBar(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = searchBarPadding),
-                    query = searchText,
-                    onQueryChange = { searchText = it },
-                    onSearch = { isSearchActive = false },
-                    active = isSearchActive,
-                    onActiveChange = { isSearchActive = it },
-                    leadingIcon = {
-                        Icon(imageVector = Icons.Default.Search, contentDescription = null)
-                    },
-                    trailingIcon = {
-                        if (isSearchActive) {
-                            IconButton(
-                                onClick = {
-                                    if (searchText.isNotEmpty()) {
-                                        searchText = ""
-                                    } else {
-                                        isSearchActive = false
-                                    }
-                                }
-                            ) {
-                                Icon(imageVector = Icons.Default.Clear, contentDescription = null)
-                            }
-                        }
-                    },
-                    content = {}
-                )
-                TabRow(
-                    selectedTabIndex = selectedTabIndex
-                ) {
-                    titles.forEachIndexed { index, title ->
-                        Tab(
-                            selected = selectedTabIndex == index,
-                            onClick = { selectedTabIndex = index },
-                            text = {
-                                Text(
-                                    text = title,
-                                    maxLines = 1,
-                                    overflow = TextOverflow.Ellipsis
-                                )
-                            }
-                        )
-                    }
-                }
-            }
+            Text(
+                text = stringResource(id = R.string.orders),
+                style = MaterialTheme.typography.titleLarge,
+                modifier = Modifier.padding(vertical = 24.dp, horizontal = 12.dp)
+            )
+//            Column {
+//                SearchBar(
+//                    modifier = Modifier
+//                        .fillMaxWidth()
+//                        .padding(horizontal = searchBarPadding),
+//                    query = searchText,
+//                    onQueryChange = { searchText = it },
+//                    onSearch = { isSearchActive = false },
+//                    active = isSearchActive,
+//                    onActiveChange = { isSearchActive = it },
+//                    leadingIcon = {
+//                        Icon(imageVector = Icons.Default.Search, contentDescription = null)
+//                    },
+//                    trailingIcon = {
+//                        if (isSearchActive) {
+//                            IconButton(
+//                                onClick = {
+//                                    if (searchText.isNotEmpty()) {
+//                                        searchText = ""
+//                                    } else {
+//                                        isSearchActive = false
+//                                    }
+//                                }
+//                            ) {
+//                                Icon(imageVector = Icons.Default.Clear, contentDescription = null)
+//                            }
+//                        }
+//                    },
+//                    content = {}
+//                )
+//                TabRow(
+//                    selectedTabIndex = selectedTabIndex
+//                ) {
+//                    titles.forEachIndexed { index, title ->
+//                        Tab(
+//                            selected = selectedTabIndex == index,
+//                            onClick = { selectedTabIndex = index },
+//                            text = {
+//                                Text(
+//                                    text = title,
+//                                    maxLines = 1,
+//                                    overflow = TextOverflow.Ellipsis
+//                                )
+//                            }
+//                        )
+//                    }
+//                }
+//            }
         },
         floatingActionButton = {
             FloatingActionButton(
