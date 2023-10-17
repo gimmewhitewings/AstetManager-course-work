@@ -6,9 +6,10 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material3.Button
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExposedDropdownMenuBox
@@ -26,11 +27,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.res.vectorResource
-import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
@@ -41,7 +38,6 @@ import com.example.astetmanager.data.database.entities.enums.PaymentMethod
 import com.example.astetmanager.data.database.entities.enums.getStringResourceId
 import com.example.astetmanager.ui.screens.complect.components.ComplectPartsAmountsBlock
 import com.example.astetmanager.ui.screens.complect.components.ComplectSizeChooser
-import com.example.astetmanager.ui.theme.AstetManagerTheme
 
 @Composable
 fun NewOrderScreen(
@@ -55,8 +51,8 @@ fun NewOrderScreen(
         setCounterparty = viewModel::setCounterparty,
         paymentMethod = viewState.paymentMethod,
         setPaymentMethod = viewModel::setPaymentMethod,
-        designText = viewState.articularText,
-        setDesignText = viewModel::setDesignText,
+        articularText = viewState.articularText,
+        setArticularText = viewModel::setArticularText,
         selectedComplectSize = viewState.selectedComplectSize,
         setComplectSize = viewModel::setSelectedComplectSize,
         pillowcasesAmount = viewState.pillowcasesAmount,
@@ -68,11 +64,12 @@ fun NewOrderScreen(
         duvetCoversAmount = viewState.duvetCoversAmount,
         onAddDuvetCoverButtonClick = viewModel::addDuvetCover,
         onRemoveDuvetCoverButtonClick = viewModel::removeDuvetCover,
+        onAddNewOrderButtonClick = viewModel::addNewOrder,
 //        onClothButtonClick = {},
 //        onChooseDateButtonClick = {},
 //        onDeliveryButtonClick = {},
-        priceText = if (viewState.price == 0) "" else viewState.price.toString(),
-        setPriceText = viewModel::setPrice
+//        priceText = if (viewState.price == 0) "" else viewState.price.toString(),
+//        setPriceText = viewModel::setPrice
     )
 }
 
@@ -84,8 +81,8 @@ fun NewOrderScreenContent(
     setCounterparty: (Counterparty) -> Unit,
     paymentMethod: PaymentMethod,
     setPaymentMethod: (PaymentMethod) -> Unit,
-    designText: String,
-    setDesignText: (String) -> Unit,
+    articularText: String,
+    setArticularText: (String) -> Unit,
     selectedComplectSize: PartTypeSize,
     setComplectSize: (PartTypeSize) -> Unit,
     pillowcasesAmount: Int,
@@ -97,11 +94,12 @@ fun NewOrderScreenContent(
     duvetCoversAmount: Int,
     onAddDuvetCoverButtonClick: () -> Unit,
     onRemoveDuvetCoverButtonClick: () -> Unit,
+    onAddNewOrderButtonClick: () -> Unit,
 //    onClothButtonClick: () -> Unit,
 //    onChooseDateButtonClick: () -> Unit,
 //    onDeliveryButtonClick: () -> Unit,
-    priceText: String,
-    setPriceText: (String) -> Unit
+//    priceText: String,
+//    setPriceText: (String) -> Unit
 ) {
     Scaffold(
         modifier = Modifier.fillMaxSize(),
@@ -194,15 +192,15 @@ fun NewOrderScreenContent(
                     }
                 }
             }
-//            OutlinedTextField(
-//                value = designText,
-//                onValueChange = setDesignText,
-//                label = { Text(text = stringResource(id = R.string.design)) },
-//                maxLines = 1,
-//                modifier = Modifier
-//                    .fillMaxWidth()
-//                    .padding(horizontal = 16.dp)
-//            )
+            OutlinedTextField(
+                value = articularText,
+                onValueChange = setArticularText,
+                label = { Text(text = stringResource(id = R.string.articular)) },
+                maxLines = 1,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp)
+            )
 
             ComplectSizeChooser(
                 modifier = Modifier
@@ -273,38 +271,51 @@ fun NewOrderScreenContent(
 //                    )
 //                }
 //            )
+
+            Button(
+                onClick = onAddNewOrderButtonClick,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp)
+            ) {
+                Icon(
+                    imageVector = Icons.Default.Add,
+                    contentDescription = stringResource(id = R.string.add)
+                )
+                Text(text = stringResource(id = R.string.add))
+            }
         }
     }
 }
 
-@Preview
-@Composable
-fun ApplicationScreenContent_Preview() {
-    AstetManagerTheme {
-        NewOrderScreenContent(
-            onNavigationIconClick = { },
-            counterparty = Counterparty.OZON,
-            setCounterparty = {},
-            paymentMethod = PaymentMethod.CASH,
-            setPaymentMethod = {},
-            designText = "hey",
-            setDesignText = {},
-            selectedComplectSize = PartTypeSize.M,
-            setComplectSize = {},
-            pillowcasesAmount = 2,
-            onAddPillowcaseButtonClick = { },
-            onRemovePillowcaseButtonClick = { },
-            sheetsAmount = 1,
-            onAddSheetButtonClick = { },
-            onRemoveSheetButtonClick = { },
-            duvetCoversAmount = 1,
-            onAddDuvetCoverButtonClick = { },
-            onRemoveDuvetCoverButtonClick = { },
-//            onClothButtonClick = { },
-//            onChooseDateButtonClick = { },
-//            onDeliveryButtonClick = { },
-            priceText = "1000",
-            setPriceText = {}
-        )
-    }
-}
+//@Preview
+//@Composable
+//fun ApplicationScreenContent_Preview() {
+//    AstetManagerTheme {
+//        NewOrderScreenContent(
+//            onNavigationIconClick = { },
+//            counterparty = Counterparty.OZON,
+//            setCounterparty = {},
+//            paymentMethod = PaymentMethod.CASH,
+//            setPaymentMethod = {},
+//            articularText = "hey",
+//            setArticularText = {},
+//            selectedComplectSize = PartTypeSize.M,
+//            setComplectSize = {},
+//            pillowcasesAmount = 2,
+//            onAddPillowcaseButtonClick = { },
+//            onRemovePillowcaseButtonClick = { },
+//            sheetsAmount = 1,
+//            onAddSheetButtonClick = { },
+//            onRemoveSheetButtonClick = { },
+//            duvetCoversAmount = 1,
+//            onAddDuvetCoverButtonClick = { },
+//            onRemoveDuvetCoverButtonClick = { },
+////            onClothButtonClick = { },
+////            onChooseDateButtonClick = { },
+////            onDeliveryButtonClick = { },
+//            priceText = "1000",
+//            setPriceText = {}
+//        )
+//    }
+//}

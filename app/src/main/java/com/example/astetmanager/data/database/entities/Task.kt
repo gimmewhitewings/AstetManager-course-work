@@ -7,7 +7,7 @@ import java.util.Date
 @Entity
 data class Task(
     @PrimaryKey(autoGenerate = true)
-    val taskId: Int,
+    val taskId: Int? = null,
     val orderId: Int,
     val partTypeId: Int,
     val userId: Int? = null,

@@ -48,39 +48,51 @@ class StorageViewModel @Inject constructor(
     fun addComplect() {
         viewModelScope.launch {
             _uiState.value.apply {
-                if (pillowcasesAmount > 0) {
-                    repository.addPartType(
-                        PartType(
-                            partTypeClass = PartTypeClass.PILLOWCASE,
-                            articular = articularText,
-                            count = pillowcasesAmount,
-                            partTypeSize = selectedPartTypeSize
-                        )
-                    )
-                }
+                addPillowcasesToStorage()
 
-                if (sheetsAmount > 0) {
-                    repository.addPartType(
-                        PartType(
-                            partTypeClass = PartTypeClass.SHEET,
-                            articular = articularText,
-                            count = sheetsAmount,
-                            partTypeSize = selectedPartTypeSize
-                        )
-                    )
-                }
+                addSheetsToStorage()
 
-                if (duvetCoversAmount > 0) {
-                    repository.addPartType(
-                        PartType(
-                            partTypeClass = PartTypeClass.DUVET_COVER,
-                            articular = articularText,
-                            count = duvetCoversAmount,
-                            partTypeSize = selectedPartTypeSize
-                        )
-                    )
-                }
+                addDuvetCoversToStorage()
             }
+        }
+    }
+
+    private suspend fun StorageUiState.addDuvetCoversToStorage() {
+        if (duvetCoversAmount > 0) {
+            repository.addPartType(
+                PartType(
+                    partTypeClass = PartTypeClass.DUVET_COVER,
+                    articular = articularText,
+                    count = duvetCoversAmount,
+                    partTypeSize = selectedPartTypeSize
+                )
+            )
+        }
+    }
+
+    private suspend fun StorageUiState.addSheetsToStorage() {
+        if (sheetsAmount > 0) {
+            repository.addPartType(
+                PartType(
+                    partTypeClass = PartTypeClass.SHEET,
+                    articular = articularText,
+                    count = sheetsAmount,
+                    partTypeSize = selectedPartTypeSize
+                )
+            )
+        }
+    }
+
+    private suspend fun StorageUiState.addPillowcasesToStorage() {
+        if (pillowcasesAmount > 0) {
+            repository.addPartType(
+                PartType(
+                    partTypeClass = PartTypeClass.PILLOWCASE,
+                    articular = articularText,
+                    count = pillowcasesAmount,
+                    partTypeSize = selectedPartTypeSize
+                )
+            )
         }
     }
 

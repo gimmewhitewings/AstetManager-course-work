@@ -7,7 +7,7 @@ import com.example.astetmanager.data.database.entities.enums.UserRole
 @Entity
 data class User(
     @PrimaryKey(autoGenerate = true)
-    val userId: Int,
+    val userId: Int? = null,
     val password: String,
     val username: String,
     val displayName: String,

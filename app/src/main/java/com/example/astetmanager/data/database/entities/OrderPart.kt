@@ -6,7 +6,7 @@ import androidx.room.PrimaryKey
 @Entity
 data class OrderPart(
     @PrimaryKey(autoGenerate = true)
-    val orderPartId: Int,
+    val orderPartId: Int? = null,
     val orderId: Int,
     val partTypeId: Int,
     val count: Int

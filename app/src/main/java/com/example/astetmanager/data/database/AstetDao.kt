@@ -11,6 +11,7 @@ import com.example.astetmanager.data.database.entities.OrderPart
 import com.example.astetmanager.data.database.entities.OrderWithOrderParts
 import com.example.astetmanager.data.database.entities.OrderWithTasks
 import com.example.astetmanager.data.database.entities.PartType
+import com.example.astetmanager.data.database.entities.PartTypeWithTasks
 import com.example.astetmanager.data.database.entities.Task
 import com.example.astetmanager.data.database.entities.User
 import com.example.astetmanager.data.database.entities.UserWithTasks
@@ -43,7 +44,7 @@ interface AstetDao {
 
 
     @Insert
-    suspend fun insertOrder(order: Order)
+    suspend fun insertOrder(order: Order): Long
 
     @Query("SELECT * FROM `Order` WHERE orderId = :orderId")
     suspend fun getOrderById(orderId: Int): Order?
@@ -84,6 +85,9 @@ interface AstetDao {
     @Query("SELECT * FROM Task WHERE isCompleted = 0")
     fun getUncompletedTasks(): Flow<List<Task>>
 
+    @Query("SELECT * FROM PartType")
+    fun getPartTypesWithTasks(): Flow<List<PartTypeWithTasks>>
+
     @Update
     suspend fun updateTask(task: Task)
 
@@ -92,10 +96,17 @@ interface AstetDao {
 
 
     @Insert
-    suspend fun insertPartType(partType: PartType)
+    suspend fun insertPartType(partType: PartType): Long
 
     @Query("SELECT * FROM PartType WHERE partTypeId = :partTypeId")
     suspend fun getPartTypeById(partTypeId: Int): PartType?
+
+    @Query("SELECT * FROM PartType WHERE articular = :articular AND partTypeClass = :partTypeClass AND partTypeSize = :partTypeSize")
+    suspend fun getPartTypeByArticularAndSizeAndClass(
+        articular: String,
+        partTypeSize: PartTypeSize,
+        partTypeClass: PartTypeClass
+    ): PartType?
 
     @Query("SELECT * FROM PartType WHERE partTypeSize = :partTypeSize")
     fun getPartTypesBySize(partTypeSize: PartTypeSize): Flow<List<PartType>>
@@ -103,11 +114,26 @@ interface AstetDao {
 //    @Query("SELECT * FROM PartType WHERE articular = :articular")
 //    fun getPartTypesByArticular(articular: String): Flow<List<PartType>>
 
-    @Query("SELECT * FROM PartType")
-    fun getAllPartTypes(): Flow<List<PartType>>
+
+    @Query("SELECT * FROM PartType WHERE articular = :articular AND partTypeClass = :partTypeClass AND partTypeSize = :partTypeSize")
+    fun getPartTypesByArticularClassSize(
+        articular: String,
+        partTypeSize: PartTypeSize,
+        partTypeClass: PartTypeClass
+    ): Flow<List<PartType>>
+
+    @Query("SELECT * FROM PartType WHERE count > 0")
+    fun getAllPartTypesInStorage(): Flow<List<PartType>>
 
     @Query("SELECT * FROM PartType WHERE partTypeClass = :partTypeClass")
     fun getPartTypesByPartTypeClass(partTypeClass: PartTypeClass): Flow<List<PartType>>
+
+    @Query("SELECT COUNT(partTypeId) FROM PartType WHERE articular = :articular AND partTypeClass = :partTypeClass AND partTypeSize = :partTypeSize")
+    suspend fun countPartTypesByArticularAndSizeAndClass(
+        articular: String,
+        partTypeSize: PartTypeSize,
+        partTypeClass: PartTypeClass
+    ): Int
 
     @Update
     suspend fun updatePartType(partType: PartType)

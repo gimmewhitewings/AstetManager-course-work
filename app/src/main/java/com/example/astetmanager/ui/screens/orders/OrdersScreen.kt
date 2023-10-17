@@ -1,10 +1,13 @@
 package com.example.astetmanager.ui.screens.orders
 
 import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Clear
@@ -34,6 +37,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.example.astetmanager.R
+import com.example.astetmanager.data.database.entities.Order
 import com.example.astetmanager.ui.Screen
 import com.example.astetmanager.ui.theme.AstetManagerTheme
 
@@ -44,13 +48,15 @@ fun OrdersScreen(
 ) {
     val viewState by viewModel.uiState.collectAsStateWithLifecycle()
     OrdersScreenContent(
-        onAddNewOrderButtonClick = { navController.navigate(Screen.NewOrder.route) },
+        orders = viewState.orders,
+        onAddNewOrderButtonClick = { navController.navigate(Screen.NewOrder.route) }
     )
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun OrdersScreenContent(
+    orders: List<Order>,
     onAddNewOrderButtonClick: () -> Unit = {},
 ) {
     var selectedTabIndex by remember { mutableIntStateOf(0) }
@@ -122,20 +128,21 @@ fun OrdersScreenContent(
             }
         }
     ) { innerPadding ->
-        Column(Modifier.padding(innerPadding)) {
-            Text(
-                modifier = Modifier.align(Alignment.CenterHorizontally),
-                text = "Text tab ${selectedTabIndex + 1} selected",
-                style = MaterialTheme.typography.bodyLarge
-            )
+        LazyColumn(
+            modifier = Modifier.padding(innerPadding),
+            verticalArrangement = Arrangement.spacedBy(16.dp)
+        ) {
+            items(orders) { order ->
+                Text(text = order.toString())
+            }
         }
     }
 }
 
-@Preview
-@Composable
-fun DocumentScreenContent_Preview() {
-    AstetManagerTheme {
-        OrdersScreenContent()
-    }
-}
+//@Preview
+//@Composable
+//fun DocumentScreenContent_Preview() {
+//    AstetManagerTheme {
+//        OrdersScreenContent()
+//    }
+//}
