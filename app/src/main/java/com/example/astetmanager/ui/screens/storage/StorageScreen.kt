@@ -5,28 +5,35 @@ import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.BottomSheetScaffold
+import androidx.compose.material3.Card
 import androidx.compose.material3.ElevatedButton
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.MaterialTheme.typography
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.SearchBar
 import androidx.compose.material3.Tab
 import androidx.compose.material3.TabRow
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberBottomSheetScaffoldState
+import androidx.compose.material3.rememberStandardBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
@@ -38,15 +45,19 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.astetmanager.R
+import com.example.astetmanager.data.database.entities.PartType
 import com.example.astetmanager.data.database.entities.enums.PartTypeClass
 import com.example.astetmanager.data.database.entities.enums.PartTypeSize
 import com.example.astetmanager.data.database.entities.enums.getStringResourceId
 import com.example.astetmanager.ui.screens.complect.components.PartTypeClassAmountChooser
 import com.example.astetmanager.ui.screens.complect.components.ComplectPartsAmountsBlock
 import com.example.astetmanager.ui.screens.complect.components.ComplectSizeChooser
+import com.example.astetmanager.ui.theme.AstetManagerTheme
 import kotlinx.coroutines.launch
 
 @Composable
@@ -55,8 +66,9 @@ fun StorageScreen(
 ) {
     val viewState by viewModel.uiState.collectAsStateWithLifecycle()
     StorageScreenContent(
-        onAddNewComplectButtonClick = { },
-        onAddPartTypeButtonClick = { },
+        displayablePartTypesList = viewState.displayablePartTypesList,
+        onAddNewComplectButtonClick = viewModel::addComplect,
+        onAddPartTypeButtonClick = viewModel::addPartType,
         addingPartTypeClassAmount = viewState.addingPartTypeClassAmount,
         increaseAddingPartTypeClassAmount = viewModel::increaseAddingPartTypeClassAmount,
         decreaseAddingPartClassAmount = viewModel::decreaseAddingPartTypeClassAmount,
@@ -72,7 +84,11 @@ fun StorageScreen(
         onRemoveDuvetCoverButtonClick = viewModel::removeDuvetCover,
         onAddDuvetCoverButtonClick = viewModel::addDuvetCover,
         selectedPartTypeSize = viewState.selectedPartTypeSize,
-        setPartTypeSize = viewModel::setSelectedPartTypeSize
+        setPartTypeSize = viewModel::setSelectedPartTypeSize,
+//        priceText = if (viewState.price == 0) "" else viewState.price.toString(),
+//        setPriceText = viewModel::setPrice,
+        articularText = viewState.articularText,
+        setArticularText = viewModel::setArticularText
     )
 }
 
@@ -96,7 +112,12 @@ fun StorageScreenContent(
     onRemoveDuvetCoverButtonClick: () -> Unit,
     onAddDuvetCoverButtonClick: () -> Unit,
     selectedPartTypeSize: PartTypeSize,
-    setPartTypeSize: (PartTypeSize) -> Unit
+    setPartTypeSize: (PartTypeSize) -> Unit,
+//    priceText: String,
+//    setPriceText: (String) -> Unit,
+    articularText: String,
+    setArticularText: (String) -> Unit,
+    displayablePartTypesList: List<PartType>
 ) {
     var state by remember { mutableIntStateOf(0) }
     val titles = listOf(
@@ -111,7 +132,9 @@ fun StorageScreenContent(
         targetValue = if (isSearchActive) 0.dp else 16.dp,
         label = "searchBarPadding"
     )
-    val scaffoldState = rememberBottomSheetScaffoldState()
+    val scaffoldState = rememberBottomSheetScaffoldState(
+        bottomSheetState = rememberStandardBottomSheetState(skipHiddenState = false)
+    )
     val scope = rememberCoroutineScope()
     BottomSheetScaffold(
         modifier = Modifier.fillMaxSize(),
@@ -194,6 +217,16 @@ fun StorageScreenContent(
                 setComplectSize = setPartTypeSize
             )
 
+            OutlinedTextField(
+                value = articularText,
+                onValueChange = setArticularText,
+                label = { Text(text = stringResource(id = R.string.design)) },
+                maxLines = 1,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp)
+            )
+
             if (selectedAddingTabIndex == AddingTab.PART_TYPE.ordinal) {
                 val horizontalScrollState = rememberScrollState()
                 Row(
@@ -236,11 +269,16 @@ fun StorageScreenContent(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(16.dp),
-                onClick = when (selectedAddingTabIndex) {
-                    AddingTab.PART_TYPE.ordinal -> onAddPartTypeButtonClick
-                    AddingTab.COMPLECT.ordinal -> onAddNewComplectButtonClick
-                    else -> {
-                        throw IllegalArgumentException()
+                onClick = {
+                    when (selectedAddingTabIndex) {
+                        AddingTab.PART_TYPE.ordinal -> onAddPartTypeButtonClick()
+                        AddingTab.COMPLECT.ordinal -> onAddNewComplectButtonClick()
+                        else -> {
+                            throw IllegalArgumentException()
+                        }
+                    }
+                    scope.launch {
+                        scaffoldState.bottomSheetState.hide()
                     }
                 }
             ) {
@@ -249,11 +287,21 @@ fun StorageScreenContent(
         }
     ) { innerPadding ->
         Box(Modifier.padding(innerPadding)) {
-            Text(
-                modifier = Modifier.align(Alignment.TopCenter),
-                text = "Text tab ${state + 1} selected",
-                style = MaterialTheme.typography.bodyLarge
-            )
+            LazyColumn(
+                modifier = Modifier.fillMaxSize(),
+                verticalArrangement = Arrangement.spacedBy(8.dp),
+                contentPadding = PaddingValues(16.dp)
+            ) {
+                items(displayablePartTypesList) { partType ->
+                    PartTypeItem(
+                        modifier = Modifier.fillMaxWidth(),
+                        articular = partType.articular,
+                        count = partType.count,
+                        size = partType.partTypeSize,
+                        partTypeClass = partType.partTypeClass
+                    )
+                }
+            }
             FloatingActionButton(
                 modifier = Modifier
                     .align(Alignment.BottomEnd)
@@ -267,6 +315,55 @@ fun StorageScreenContent(
                 Icon(imageVector = Icons.Default.Add, contentDescription = null)
             }
         }
+    }
+}
+
+@Composable
+fun PartTypeItem(
+    articular: String,
+    count: Int,
+    size: PartTypeSize,
+    partTypeClass: PartTypeClass,
+    modifier: Modifier = Modifier
+) {
+    Card(modifier = modifier.padding()) {
+        Row(
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(24.dp)
+        ) {
+            Column(
+                horizontalAlignment = Alignment.Start
+            ) {
+                Text(
+                    text = stringResource(id = partTypeClass.getStringResourceId()),
+                    style = typography.titleLarge
+                )
+                Spacer(modifier = Modifier.padding(4.dp))
+                Text(text = articular, style = typography.titleMedium)
+                Spacer(modifier = Modifier.padding(4.dp))
+                Text(text = size.toString(), style = typography.titleMedium)
+            }
+            Text(
+                text = count.toString(),
+                style = typography.headlineLarge
+            )
+        }
+    }
+}
+
+@Preview(showBackground = true, device = "spec:width=400dp,height=400dp,dpi=440")
+@Composable
+fun PartTypeItem_Preview() {
+    AstetManagerTheme {
+        PartTypeItem(
+            articular = "Forest",
+            count = 3,
+            size = PartTypeSize.M,
+            partTypeClass = PartTypeClass.PILLOWCASE
+        )
     }
 }
 

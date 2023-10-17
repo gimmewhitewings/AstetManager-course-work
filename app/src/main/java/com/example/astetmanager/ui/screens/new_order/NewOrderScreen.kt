@@ -194,15 +194,15 @@ fun NewOrderScreenContent(
                     }
                 }
             }
-            OutlinedTextField(
-                value = designText,
-                onValueChange = setDesignText,
-                label = { Text(text = stringResource(id = R.string.design)) },
-                maxLines = 1,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 16.dp)
-            )
+//            OutlinedTextField(
+//                value = designText,
+//                onValueChange = setDesignText,
+//                label = { Text(text = stringResource(id = R.string.design)) },
+//                maxLines = 1,
+//                modifier = Modifier
+//                    .fillMaxWidth()
+//                    .padding(horizontal = 16.dp)
+//            )
 
             ComplectSizeChooser(
                 modifier = Modifier
@@ -258,21 +258,21 @@ fun NewOrderScreenContent(
 //                Text(text = stringResource(id = R.string.delivery))
 //            }
 
-            OutlinedTextField(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 16.dp),
-                value = priceText,
-                onValueChange = setPriceText,
-                label = { Text(text = stringResource(id = R.string.price)) },
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-                trailingIcon = {
-                    Icon(
-                        imageVector = ImageVector.vectorResource(id = R.drawable.ic_ruble),
-                        contentDescription = null
-                    )
-                }
-            )
+//            OutlinedTextField(
+//                modifier = Modifier
+//                    .fillMaxWidth()
+//                    .padding(horizontal = 16.dp),
+//                value = priceText,
+//                onValueChange = setPriceText,
+//                label = { Text(text = stringResource(id = R.string.price)) },
+//                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+//                trailingIcon = {
+//                    Icon(
+//                        imageVector = ImageVector.vectorResource(id = R.drawable.ic_ruble),
+//                        contentDescription = null
+//                    )
+//                }
+//            )
         }
     }
 }

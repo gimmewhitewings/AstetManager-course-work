@@ -10,7 +10,7 @@ data class Order(
     @PrimaryKey(autoGenerate = true)
     val orderId: Int,
     val orderStatus: OrderStatus,
-    val priceRub: Int = 0,
+    //val priceRub: Int = 0,
     val creationDate: Long = Date().time
 )
 

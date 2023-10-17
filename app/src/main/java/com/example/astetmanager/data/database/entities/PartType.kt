@@ -8,11 +8,11 @@ import com.example.astetmanager.data.database.entities.enums.PartTypeSize
 @Entity
 data class PartType(
     @PrimaryKey(autoGenerate = true)
-    val partTypeId: Int,
+    val partTypeId: Int? = null,
     val partTypeClass: PartTypeClass,
     val articular: String,
     val partTypeSize: PartTypeSize,
-    val costRub: Int = 0,
+    //val costRub: Int = 0,
     val count: Int = 0
 )
 

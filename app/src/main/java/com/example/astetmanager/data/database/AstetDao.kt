@@ -100,8 +100,11 @@ interface AstetDao {
     @Query("SELECT * FROM PartType WHERE partTypeSize = :partTypeSize")
     fun getPartTypesBySize(partTypeSize: PartTypeSize): Flow<List<PartType>>
 
-    @Query("SELECT * FROM PartType WHERE articular = :articular")
-    fun getPartTypesByArticular(articular: String): Flow<List<PartType>>
+//    @Query("SELECT * FROM PartType WHERE articular = :articular")
+//    fun getPartTypesByArticular(articular: String): Flow<List<PartType>>
+
+    @Query("SELECT * FROM PartType")
+    fun getAllPartTypes(): Flow<List<PartType>>
 
     @Query("SELECT * FROM PartType WHERE partTypeClass = :partTypeClass")
     fun getPartTypesByPartTypeClass(partTypeClass: PartTypeClass): Flow<List<PartType>>
