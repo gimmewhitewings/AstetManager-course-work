@@ -42,4 +42,8 @@
     <string name="choose_date">Выберите дату</string>
     <string name="delivery">Доставка</string>
     <string name="price">Цена</string>
+    <string name="orders">Заказы</string>
+    <string name="new_order">Новый заказ</string>
+    <string name="part_type">Деталь</string>
+    <string name="articular">Артикул</string>
 </resources>
