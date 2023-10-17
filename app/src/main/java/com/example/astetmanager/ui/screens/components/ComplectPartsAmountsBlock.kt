@@ -1,4 +1,4 @@
-package com.example.astetmanager.ui.screens.complect.components
+package com.example.astetmanager.ui.screens.components
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth

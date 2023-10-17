@@ -55,9 +55,9 @@ import com.example.astetmanager.data.database.entities.PartType
 import com.example.astetmanager.data.database.entities.enums.PartTypeClass
 import com.example.astetmanager.data.database.entities.enums.PartTypeSize
 import com.example.astetmanager.data.database.entities.enums.getStringResourceId
-import com.example.astetmanager.ui.screens.complect.components.PartTypeClassAmountChooser
-import com.example.astetmanager.ui.screens.complect.components.ComplectPartsAmountsBlock
-import com.example.astetmanager.ui.screens.complect.components.ComplectSizeChooser
+import com.example.astetmanager.ui.screens.components.PartTypeClassAmountChooser
+import com.example.astetmanager.ui.screens.components.ComplectPartsAmountsBlock
+import com.example.astetmanager.ui.screens.components.ComplectSizeChooser
 import com.example.astetmanager.ui.theme.AstetManagerTheme
 import kotlinx.coroutines.launch
 

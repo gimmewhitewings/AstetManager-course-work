@@ -47,17 +47,18 @@ class NewOrderViewModel @Inject constructor(
         viewModelScope.launch {
             val currentUiState = _uiState.value
 
-            val pillowcasesInStorage = repository.countPartTypesByArticularAndSizeAndClass(
+            repository.countPartTypesByArticularAndSizeAndClass(
                 articular = currentUiState.articularText,
                 partTypeSize = currentUiState.selectedComplectSize,
                 partTypeClass = PartTypeClass.PILLOWCASE
-            )
-
-            _uiState.update {
-                it.copy(
-                    pillowcasesAmountDifference = if (pillowcasesInStorage < it.pillowcasesAmount) it.pillowcasesAmount - pillowcasesInStorage else 0
-                )
+            ).also { pillowcasesInStorage ->
+                _uiState.update {
+                    it.copy(
+                        pillowcasesAmountDifference = if (pillowcasesInStorage < it.pillowcasesAmount) it.pillowcasesAmount - pillowcasesInStorage else 0
+                    )
+                }
             }
+
         }
     }
 
@@ -66,17 +67,18 @@ class NewOrderViewModel @Inject constructor(
         viewModelScope.launch {
             val currentUiState = _uiState.value
 
-            val sheetsInStorage = repository.countPartTypesByArticularAndSizeAndClass(
+            repository.countPartTypesByArticularAndSizeAndClass(
                 articular = currentUiState.articularText,
                 partTypeSize = currentUiState.selectedComplectSize,
                 partTypeClass = PartTypeClass.SHEET
-            )
-
-            _uiState.update {
-                it.copy(
-                    sheetsAmountDifference = if (sheetsInStorage < it.sheetsAmount) it.sheetsAmount - sheetsInStorage else 0
-                )
+            ).also { sheetsInStorage ->
+                _uiState.update {
+                    it.copy(
+                        sheetsAmountDifference = if (sheetsInStorage < it.sheetsAmount) it.sheetsAmount - sheetsInStorage else 0
+                    )
+                }
             }
+
         }
     }
 
@@ -84,17 +86,18 @@ class NewOrderViewModel @Inject constructor(
         viewModelScope.launch {
             val currentUiState = _uiState.value
 
-            val duvetCoversInStorage = repository.countPartTypesByArticularAndSizeAndClass(
+            repository.countPartTypesByArticularAndSizeAndClass(
                 articular = currentUiState.articularText,
                 partTypeSize = currentUiState.selectedComplectSize,
                 partTypeClass = PartTypeClass.DUVET_COVER
-            )
-
-            _uiState.update {
-                it.copy(
-                    duvetCoversAmountDifference = if (duvetCoversInStorage < it.duvetCoversAmount) it.duvetCoversAmount - duvetCoversInStorage else 0
-                )
+            ).also { duvetCoversInStorage ->
+                _uiState.update {
+                    it.copy(
+                        duvetCoversAmountDifference = if (duvetCoversInStorage < it.duvetCoversAmount) it.duvetCoversAmount - duvetCoversInStorage else 0
+                    )
+                }
             }
+
         }
     }
 
@@ -103,42 +106,43 @@ class NewOrderViewModel @Inject constructor(
     }
 
     fun addPillowCase() {
-        _uiState.update { it.copy(pillowcasesAmount = it.pillowcasesAmount + 1) }
+        _uiState.update { it.copy(pillowcasesAmount = it.pillowcasesAmount.inc()) }
         updatePillowcasesAmountDifference()
     }
 
     fun removePillowCase() {
         _uiState.update {
             it.copy(
-                pillowcasesAmount = if (it.pillowcasesAmount == 0) 0 else it.pillowcasesAmount - 1
+                pillowcasesAmount = if (it.pillowcasesAmount == 0) 0 else it.pillowcasesAmount.dec()
             )
         }
         updatePillowcasesAmountDifference()
     }
 
     fun addSheet() {
-        _uiState.update { it.copy(sheetsAmount = it.sheetsAmount + 1) }
-        updateSheetsAmountDifference()
+        _uiState.update { it.copy(sheetsAmount = it.sheetsAmount.inc()) }.also {
+            updateSheetsAmountDifference()
+        }
     }
 
     fun removeSheet() {
         _uiState.update {
             it.copy(
-                sheetsAmount = if (it.sheetsAmount == 0) 0 else it.sheetsAmount - 1
+                sheetsAmount = if (it.sheetsAmount == 0) 0 else it.sheetsAmount.dec()
             )
         }
         updateSheetsAmountDifference()
     }
 
     fun addDuvetCover() {
-        _uiState.update { it.copy(duvetCoversAmount = it.duvetCoversAmount + 1) }
+        _uiState.update { it.copy(duvetCoversAmount = it.duvetCoversAmount.inc()) }
         updateDuvetCoversAmountDifference()
     }
 
     fun removeDuvetCover() {
         _uiState.update {
             it.copy(
-                duvetCoversAmount = if (it.duvetCoversAmount == 0) 0 else it.duvetCoversAmount - 1
+                duvetCoversAmount = if (it.duvetCoversAmount == 0) 0 else it.duvetCoversAmount.dec()
             )
         }
         updateDuvetCoversAmountDifference()
@@ -165,35 +169,35 @@ class NewOrderViewModel @Inject constructor(
                     "AAA",
                     "addNewOrder: differences: pc - $pillowcasesAmountDifference, s - $sheetsAmountDifference, dc - $duvetCoversAmountDifference"
                 )
-                if (pillowcasesAmountDifference > 0) {
-                    repository.addTask(
-                        orderId = orderId,
-                        articular = articularText,
-                        count = pillowcasesAmountDifference,
-                        partTypeClass = PartTypeClass.PILLOWCASE,
-                        partTypeSize = selectedComplectSize
-                    )
-                }
+//                if (pillowcasesAmountDifference > 0) {
+                repository.addTask(
+                    orderId = orderId,
+                    articular = articularText,
+                    count = pillowcasesAmount,
+                    partTypeClass = PartTypeClass.PILLOWCASE,
+                    partTypeSize = selectedComplectSize
+                )
+//                }
 
-                if (sheetsAmountDifference > 0) {
-                    repository.addTask(
-                        orderId = orderId,
-                        articular = articularText,
-                        count = sheetsAmountDifference,
-                        partTypeClass = PartTypeClass.SHEET,
-                        partTypeSize = selectedComplectSize
-                    )
-                }
+//                if (sheetsAmountDifference > 0) {
+                repository.addTask(
+                    orderId = orderId,
+                    articular = articularText,
+                    count = sheetsAmount,
+                    partTypeClass = PartTypeClass.SHEET,
+                    partTypeSize = selectedComplectSize
+                )
+//                }
 
-                if (duvetCoversAmountDifference > 0) {
-                    repository.addTask(
-                        orderId = orderId,
-                        articular = articularText,
-                        count = duvetCoversAmountDifference,
-                        partTypeClass = PartTypeClass.DUVET_COVER,
-                        partTypeSize = selectedComplectSize
-                    )
-                }
+//                if (duvetCoversAmountDifference > 0) {
+                repository.addTask(
+                    orderId = orderId,
+                    articular = articularText,
+                    count = duvetCoversAmount,
+                    partTypeClass = PartTypeClass.DUVET_COVER,
+                    partTypeSize = selectedComplectSize
+                )
+//                }
             }
         }
     }

@@ -45,13 +45,6 @@ class AppRepository @Inject constructor(
                     articular = articular
                 )
             )
-            astetDao.insertOrderPart(
-                OrderPart(
-                    orderId = orderId,
-                    partTypeId = partTypeId.toInt(),
-                    count = count
-                )
-            )
             repeat(count) {
                 astetDao.insertTask(
                     Task(
@@ -61,14 +54,14 @@ class AppRepository @Inject constructor(
                     )
                 )
             }
-        } else {
             astetDao.insertOrderPart(
                 OrderPart(
                     orderId = orderId,
-                    partTypeId = partType.partTypeId!!,
+                    partTypeId = partTypeId.toInt(),
                     count = count
                 )
             )
+        } else {
             repeat(count) {
                 astetDao.insertTask(
                     Task(
@@ -78,6 +71,13 @@ class AppRepository @Inject constructor(
                     )
                 )
             }
+            astetDao.insertOrderPart(
+                OrderPart(
+                    orderId = orderId,
+                    partTypeId = partType.partTypeId!!,
+                    count = count
+                )
+            )
         }
     }
 

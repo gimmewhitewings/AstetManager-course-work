@@ -36,8 +36,8 @@ import com.example.astetmanager.data.database.entities.enums.Counterparty
 import com.example.astetmanager.data.database.entities.enums.PartTypeSize
 import com.example.astetmanager.data.database.entities.enums.PaymentMethod
 import com.example.astetmanager.data.database.entities.enums.getStringResourceId
-import com.example.astetmanager.ui.screens.complect.components.ComplectPartsAmountsBlock
-import com.example.astetmanager.ui.screens.complect.components.ComplectSizeChooser
+import com.example.astetmanager.ui.screens.components.ComplectPartsAmountsBlock
+import com.example.astetmanager.ui.screens.components.ComplectSizeChooser
 
 @Composable
 fun NewOrderScreen(
